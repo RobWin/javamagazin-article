@@ -1,0 +1,2 @@
+# Swagger AsciiDoc JavaMagazin Artikel
+
