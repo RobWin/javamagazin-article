@@ -12,8 +12,8 @@ buildscript {
         classpath 'org.kordamp.gradle:livereload-gradle-plugin:0.2.1'
     }
 }
-description = 'JavaMagazin Article'
-version = '0.7.0'
+description = 'Swagger AsciiDoc JavaMagazin Article'
+version = '0.1.0'
 group = 'io.github.robwin'
 
 apply plugin: 'org.asciidoctor.convert'
