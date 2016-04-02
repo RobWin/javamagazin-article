@@ -1,7 +1,7 @@
 = Dokumentation von RESTful APIs mittels Swagger und AsciiDoc
 :toc: left
 :toclevels: 4
-'':source-highlighter: coderay
+:source-highlighter: coderay
 :numbered:
 :hardbreaks:
 :pagenums:
