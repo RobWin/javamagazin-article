@@ -1,0 +1,3 @@
+In den letzten Jahren sind die unterschiedlichsten Projekte entstanden, die die Spezifikation und Dokumentation einer RESTful API vereinfachen sollen. Unter anderem http://swagger.io/[Swagger], http://raml.org/[RAML] oder https://apiblueprint.org/[API Blueprint]. 
+All diese Projekte haben zum Ziel ein Spezifikationsformat zu entwickeln, dass maschinenlesbar ist, aber in erster Linie von Menschen erstellt werden können soll. Sie nutzen hierfür unterschiedliche Formate wie JSON, YAML oder Markdown.
+XML-basierte Formate wie die  Web Application Description Language (WADL) sind hierfür weniger geeignet.
