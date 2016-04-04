@@ -31,7 +31,7 @@ asciidoctor {
     sources {
         include 'index.adoc'
     }
-    backends = ['pdf']
+    backends = ['pdf','html5']
 }
 
 watch {
