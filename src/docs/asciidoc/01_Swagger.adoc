@@ -1,7 +1,7 @@
 == Swagger
 
 In diesem Artikel möchte ich näher auf das Spezifikationsformat Swagger v2.0 eingehen. Swagger ermöglicht es eine RESTful API sowohl in YAML als auch in JSON zu spezifizieren. 
-http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung und eine Untermenge von JSON. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise XML. Es wird mitlerweile in vielen Projekten (u.a. Spring Boot) auch als Format für Konfigurationsdateien verwendet, da sich hiermit besser hierarchische Strukturen abbilden lassen als beispielsweise mit Property-Dateien.
+http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise XML. Es wird mitlerweile in vielen Projekten (u.a. Spring Boot) auch als Format für Konfigurationsdateien verwendet, da sich hiermit besser hierarchische Strukturen abbilden lassen als beispielsweise mit Property-Dateien.
 Das Swagger Projekt bietet einen http://editor.swagger.io/[Online-Editor] für API-Designer an, mit dem eine RESTful API spezifizieren werden kann.
 
 .Listing 1
