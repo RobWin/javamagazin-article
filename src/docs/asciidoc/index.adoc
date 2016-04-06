@@ -1,4 +1,4 @@
-= Dokumentation von RESTful APIs mittels Swagger und AsciiDoc
+= Dokumentation von RESTful APIs mittels Swagger und AsciiDoc(tor)
 :toc: left
 :toclevels: 4
 ':source-highlighter: coderay
@@ -6,11 +6,11 @@
 :hardbreaks:
 :pagenums:
 
-include::00_Intor.adoc[]
+include::00_Intro.adoc[]
 
 include::01_Swagger.adoc[]
 
-include::02_AsciiDoc.adoc[]
+include::02_AsciiDoctor.adoc[]
 
 include::03_Swagger2Markup.adoc[]
 
