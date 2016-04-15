@@ -1,0 +1,4 @@
+[1] http://swagger.io
+[2] http://raml.org/
+[3] https://apiblueprint.org/
+[4] https://developer.github.com/v3/
