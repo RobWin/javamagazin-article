@@ -1,11 +1,11 @@
 == OpenAPI Spezifikation
 
 Die OpenAPI Spezifikation (ehemals Swagger v2) ist das momentan weitverbreiteste Spezifikationsformat. Es sind viele Tools enstanden, die die Arbeit mit Swagger vereinfachen sollen, z.b. die webbasierte Kollaborationsplattform SwaggerHub, die die Teamarbeit an einer Swagger Spezifikation ermöglichen soll. SwaggerHub unterstützt den gesamten Lebenszyklus einer API und bietet hierfür einen Online-Editor für Swagger Spezifikationen, eine Integration mit GitHub, Versionisierung und Codegenerierung an.
-Ursprünglich war Swagger in der Version 1.2 ein Code-First Framework mit Hilfe dessen aus Source Code eine Swagger Spezifikation im JSON Format generiert werden konnte. Seit Version v2 wird auf einen Contract-First Ansatz im YAML-Format gesetzt.
+Ursprünglich war Swagger in der Version 1.2 ein Code-First Framework mit Hilfe dessen aus Source Code eine Swagger Spezifikation im JSON Format generiert werden konnte. Seit Version 2 wird auf einen Contract-First Ansatz im YAML-Format gesetzt. Die Version 2 wurde von der Open API Initiative als Basis für die OpenAPI Spezifiktation übernommen.
 
 NOTE: http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung und eine Untermenge von JSON. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise XML.
 
-Das Swagger Projekt bietet einen http://editor.swagger.io/[Online-Editor] für API-Designer an, mit dem eine RESTful API spezifizieren werden kann.
+SwaggerHub bietet einen http://editor.swagger.io/[Online-Editor] für API-Designer an, mit dem eine RESTful API spezifizieren werden kann.
 
 .Listing 1
 [source, yaml]
@@ -52,16 +52,16 @@ paths:
           description: Invalid ID supplied
 ----
 
-Die erstellte Spezifikation wird in dem Editor live als eine interaktive HTML-basierte API-Dokumentation (swagger-ui) dargestellt. 
+Die erstellte Spezifikation kann in dem Editor live als eine interaktive HTML-basierte API-Dokumentation (swagger-ui) dargestellt werden. 
 
 .Swagger HTML Dokumentation
 image::images/html_swagger.png[]
 
 Diese HTML-basierte API-Dokumentation ermöglicht es derzeit aber noch nicht, die API-Spezifikation offline anschauen zu können. Des Weiteren kann die Spezifikation nicht im PDF-Format exportiert werden. Ein PDF-Format ist aber oft notwendig, wenn die API-Spezifikation in einer Ausschreibung für ein Software-Projekt mit ausgehändigt werden muss.
 
-Ein weiteres Manko der HTML-basierten API-Dokumentation ist, dass eine detailliertere Beschreibung der API, wie z.B. Nutzungsbeispiele in verschiedenen Programmiersprachen oder echte HTTP-Request und HTTP-Response Beispiele, nicht dargestellt werden können. Ein Beispiel für eine sehr gute API-Dokumentation, die dies berücksichtig, ist der Developer Guide von https://developer.github.com/v3/[GitHub]. 
+Ein weiteres Manko der HTML-basierten API-Dokumentation ist, dass eine detailliertere Beschreibung der API, wie z.B. Nutzungsbeispiele in verschiedenen Programmiersprachen oder echte HTTP-Request und HTTP-Response Beispiele, nicht dargestellt werden können. 
 Es stellen sich also drei Fragen:
 
-* Wie kann eine Swagger Spezifikation um handgeschriebene Dokumentation erweitert werden? 
-* Wie kann die Spezifikation sowohl im HTML als auch PDF Format erstellt werden?
+* Wie kann eine Swagger Spezifikation um handgeschriebene Dokumentation erweitert werden, um weitere Details hinzuzufügen? 
+* Wie kann die Dokumentation sowohl im HTML als auch PDF Format erstellt werden?
 * Wie können echte Nutzungsbeispiele hinzugefügt werden?
