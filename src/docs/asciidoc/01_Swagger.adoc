@@ -1,8 +1,14 @@
 == Swagger
 
-In diesem Artikel möchte ich näher auf das Spezifikationsformat Swagger v2.0 eingehen. Swagger ermöglicht es eine RESTful API sowohl in YAML als auch in JSON zu spezifizieren. 
-http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise XML. Es wird mitlerweile in vielen Projekten (u.a. Spring Boot) auch als Format für Konfigurationsdateien verwendet, da sich hiermit besser hierarchische Strukturen abbilden lassen als beispielsweise mit Property-Dateien.
-Das Swagger Projekt bietet einen http://editor.swagger.io/[Online-Editor] für API-Designer an, mit dem eine RESTful API spezifizieren werden kann.
+Swagger ist das momentan weitverbreiteste Spezifikationsformat für RESTful APIs. Um Swagger herum hat sich eine große Tool-Landschaft gebildet. Zum Beispiel die Online-Kollaborationsplattform SwaggerHub, die eine Zusammenarbeit an Swagger Spezifikationen ermöglichen soll. SwaggerHub unterstützt den gesamten Lebenszyklus einer API und bietet hierfür einen Online-Editor für die Erstellung einer Swagger Spezifikationen an, sowie eine Integration mit GitHub, Versionisierung und Codegenerierung.
+Ursprünglich war Swagger in der Version 1.2 ein Code-First Framework mit Hilfe dessen aus Source Code eine Swagger Spezifikation im JSON Format generiert werden konnte. Seit Version 2 wird auf einen Contract-First Ansatz im YAML-Format gesetzt. Die Version 2 wurde von der Open API Initiative als Basis für die OpenAPI Spezifiktation übernommen.
+
+NOTE: http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung und eine Übermenge von JSON. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise JSON oder XML.
+
+SwaggerHub bietet einen Online-Editor an, mit dem eine RESTful API spezifiziert werden kann. In Listing 1 wird ein Ausschnitt der Swagger Petstore API dargestellt. Der REST-API Endpunkt `pets/{petId}` beispielsweise ermöglicht es ein Pet über eine ID zu finden. In der Swagger Spezifikation wird der Input-Parameter des Endpunkts und die möglichen Antwortnachrichten spezifiziert, sowie die Defintion für das `Pet` Model, das in der Antwortnachricht zurückgeliefert wird.
+
+.Swagger Online Editor
+image::images/swagger-ui-editor.jpg[]
 
 .Listing 1
 [source, yaml]
@@ -12,12 +18,6 @@ info:
   description: This is a sample server Petstore server.
   version: "1.0.0"
   title: Swagger Petstore
-  termsOfService: http://helloreverb.com/terms/
-  contact:
-    name: apiteam@wordnik.com
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
 host: petstore.swagger.wordnik.com
 basePath: /v2
 schemes:
@@ -39,26 +39,43 @@ paths:
           type: integer
           format: int64
       responses:
-        "404":
-          description: Pet not found
         "200":
           description: successful operation
           schema:
             $ref: "#/definitions/Pet"
         "400":
           description: Invalid ID supplied
+        "404":
+          description: Pet not found
+definitions:
+  Pet:
+    required:
+      - name
+      - photoUrls
+    properties:
+      id:
+        type: integer
+        format: int64
+      category:
+        $ref: "#/definitions/Category"
+      name:
+        type: string
+        example: doggie
+      status:
+        type: string
+        description: pet status in the store
 ----
 
-Die erstellte Spezifikation wird in dem Editor live als eine interaktive HTML-basierte API-Dokumentation (swagger-ui) dargestellt. 
+Die erstellte Spezifikation wird in dem Editor live als eine interaktive HTML-Dokumentation dargestellt. 
 
 .Swagger HTML Dokumentation
 image::images/html_swagger.png[]
 
-Diese HTML-basierte API-Dokumentation ermöglicht es derzeit aber noch nicht, die API-Spezifikation offline anschauen zu können. Des Weiteren kann die Spezifikation nicht im PDF-Format exportiert werden. Ein PDF-Format ist aber oft notwendig, wenn die API-Spezifikation in einer Ausschreibung für ein Software-Projekt mit ausgehändigt werden muss.
+Diese interaktive HTML-Dokumentation hat einige Mankos. Zum einen liegt der Fokus der Dokumentation eindeutig auf den REST-API Endpunkten, z.B. `GET /pets/{petId}` und nicht auf einer kurzen Beschreibung der Funtionalität, die von diesem Endpunkt angeboten wird, wie z.B. "Find Pet by ID". Ein Entwickler, dem die API unbekannt ist, würde sicher nicht nach einem konkreten REST-API Endpunkt suchen, sondern nach der benötigten Funtionalität.
+Des Weiteren kann die HTML-Dokumentation nicht offline angeschaut oder als PDF exportiert werden. Ein PDF-Format ist aber häufig notwendig, wenn die API-Dokumentation in einer Ausschreibung für ein Software-Projekt mit ausgehändigt werden muss.
+Ein weiteres Manko ist, dass die Dokumentation nicht um weitere Details erweitert werden kann, wie z.B. Nutzungsbeispiele in verschiedenen Programmiersprachen oder komplexere HTTP-Request und HTTP-Response Beispiele. 
 
-Ein weiteres Manko der HTML-basierten API-Dokumentation ist, dass eine detailliertere Beschreibung der API, wie z.B. Nutzungsbeispiele in verschiedenen Programmiersprachen oder echte HTTP-Request und HTTP-Response Beispiele, nicht dargestellt werden können. Ein Beispiel für eine sehr gute API-Dokumentation, die dies berücksichtig, ist der Developer Guide von https://developer.github.com/v3/[GitHub]. 
-Es stellen sich also drei Fragen:
+Es stellen sich also zwei Fragen:
 
-* Wie kann eine Swagger Spezifikation um handgeschriebene Dokumentation erweitert werden? 
-* Wie kann die Spezifikation sowohl im HTML als auch PDF Format erstellt werden?
-* Wie können echte Nutzungsbeispiele hinzugefügt werden?
+* Wie kann eine Swagger Spezifikation um handgeschriebene Dokumentation erweitert werden?
+* Wie kann die Dokumentation sowohl im HTML als auch PDF Format erstellt werden?

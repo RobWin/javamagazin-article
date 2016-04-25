@@ -1,2 +1,52 @@
-== Swagger2markup  
-=== Contract-First Ansatz
+Mit https://github.com/Swagger2Markup[Swagger2Markup] gibt es ein Projekt, dass es ermöglicht eine Swagger Spezifikation in AsciiDoc oder Markdown zu konvertieren. Die Swagger Spezifikation kann sowohl im YAML als auch im JSON Format vorliegen und sowohl lokal als auch remote zugängig sein.
+Die Verwendung von Swagger2Markup ist sehr simpel. 
+
+.Listing 2
+[source,java]
+----
+public class Swagger2MarkupTest {
+
+    @Test
+    public void convertLocalSwaggerToAsciiDoc() {
+        //Local Swagger source
+        String location = Swagger2MarkupTest.class.getResource("/json/swagger.json").getPath();
+        Swagger2MarkupConverter.from(location) // <1>
+          .withMarkupLanguage(MarkupLanguage.ASCIIDOC) // <2>
+          .build() // <3>
+          .intoFolder("build/docs/asciidoc/generated"); // <4>
+
+        // Then validate that three AsciiDoc files have been created
+        String[] files = new File("src/docs/asciidoc/generated").list();
+        assertThat(files).hasSize(3)
+            .containsAll(Arrays.asList("overview.adoc", "paths.adoc", "definitions.adoc")); // <5>
+    }
+}
+----
+<1> Zunächst muss ein `Swagger2MarkupConverter.Builder` erstellt werden, in dem man die Lokation der Swagger Datei angibt. Dies kann swohl eine HTTP URL als auch ein absoluter Dateifpad sein.
+<2> Anschließend kann die Auszeichnungssprache ausgewählt werden, in die konvertiert werden soll. AsciiDoc ist als Standard vorausgewählt.
+<3> Dann wird eine Instanz des `Swagger2MarkupConverter` gebaut.
+<4> Zum Schluß kann der Ziel-Ordner angegeben werden.
+<5> Standardmäßig werden drei Dateien erstellt: _overview.adoc_, _paths.adoc_ and _definitions.adoc_
+
+Eine generierte AsciiDoc-Datei sieht wie folgt aus:
+
+.Swagger AsciiDoc Format
+image::images/asciidoc.png[]
+
+Die generierten Swagger AsciiDoc-Dateien können nun mit handgeschriebener Dokumentation (z.B. `hand_written_1.adoc` und `hand_written_2.adoc`) vereint werden. Hierzu erstellt man eine `index.adoc` Datei, die alle Dateien inkludiert.
+
+.Listing 3
+----
+\include::overview.adoc[]
+\include::hand_written_1.adoc[]
+\include::hand_written_2.adoc[]
+\include::paths.adoc[]
+\include::definitions.adoc[]
+----
+
+Mittels https://github.com/asciidoctor/asciidoctorj[Asciidoctorj], des  https://github.com/asciidoctor/asciidoctor-gradle-plugin[Asciidoctor Gradle Plugins] oder des https://github.com/asciidoctor/asciidoctor-maven-plugin[Asciidoctor Maven Plugins] kann die `index.adoc` Datei in HTML und PDF konvertiert werden.
+
+Eine generierte HTML oder PDF-Datei sieht dann wie folgt aus:
+
+.AsciiDoc HTML Dokumentation
+image::images/asciidoc_html.png[]
