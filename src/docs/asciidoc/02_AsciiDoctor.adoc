@@ -1,5 +1,3 @@
-== AsciiDoc(tor)
+== AsciiDoc
 
-http://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc] ist eine Auszeichnungssprache vergleichbar mit Markdown, allerdings deutlich umfangreicher. AsciiDoc eignet sich dafür Artikel, Bücher, Ebooks oder Slideshows zu erstellen. AsciiDoc Dateien können in mehrere Formate wie z.B. HTML, PDF, EPUB oder DocBook konvertiert werden. 
-AsciiDoc, aber auch Markdown, eignen sicher hervorragend dafür handgeschrieben Dokumentation zu erstellen.
-
+http://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc] ist eine Auszeichnungssprache vergleichbar mit Markdown, allerdings deutlich umfangreicher. AsciiDoc Dateien können in mehrere Formate wie z.B. HTML, PDF, EPUB oder DocBook konvertiert werden. AsciiDoc, aber auch Markdown, eignen sich hervorragend dafür handgeschriebe technische Dokumentation zu erstellen.
