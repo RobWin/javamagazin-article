@@ -36,7 +36,7 @@ Die generierte HTML oder PDF-Dokumentation sieht dann wie folgt aus:
 .AsciiDoc HTML Dokumentation
 image::images/asciidoc_html.PNG[]
 
-Der Fokus der Dokumentation und der Inhaltsangabe liegt auf der Funktionalität, die die API anbietet und nicht auf den konkreten API Endpunkten.
+Der Fokus der Dokumentation und der Inhaltsangabe liegt auf der Funktionalität, die von der API angeboten wird und nicht auf den konkreten API Endpunkten.
 
 Swagger2Markup hat viele Konfigurationsparameter und kann über verschiedene Wege konfiguriert werden, z.B. System Properties, Properties-Datei, Fluent-API oder einer Java Map. Listing 4 zeigt beispielsweise die Verwendung der Fluent-API.
 
