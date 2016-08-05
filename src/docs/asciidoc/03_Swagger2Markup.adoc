@@ -29,7 +29,7 @@ Hierzu erstellt man eine `index.adoc` Datei, die alle Dateien inkludiert. Der Pl
 ----
 
 Mit Hilfe des Open Source Projekts https://github.com/asciidoctor/asciidoctorj[Asciidoctorj] kann die `index.adoc` Datei in HTML, PDF oder andere Formate konvertiert werden. 
-Für Swagger2Markup und Asciidoctorj gibt es auch Gradle oder Maven Plugins, um die Konvertierung in einer Build-Pipeline zu automatisieren. Auf GitHub gibt es auch zwei Template-Projekte, um den Start mit Gradle oder Maven zu vereinfachen.
+Für Swagger2Markup und Asciidoctorj gibt es auch Gradle oder Maven Plugins, um die Konvertierung in einer Build-Pipeline zu automatisieren. Auf GitHub gibt es zwei Template-Projekte, die den Start mit Gradle oder Maven vereinfachen sollen.
 
 Die generierte HTML oder PDF-Dokumentation sieht dann wie folgt aus:
 
