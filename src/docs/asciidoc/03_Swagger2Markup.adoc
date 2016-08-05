@@ -15,7 +15,7 @@ Swagger2MarkupConverter.from(remoteSwaggerFile)
         .toFolder(outputDirectory);
 ----
 
-Standardmäßig werden vier AsciiDoc-Dateien generiert: _overview.adoc_, _security.adoc_, _paths.adoc_ und _definitions.adoc_. Diese generierten Dateien können nun mit handgeschriebener Dokumentation (z.B. `hand_written_1.adoc` und `hand_written_2.adoc`) kombiniert werden. Die handgeschriebene Dokumentation kann Informationen beinhalten, die mit Swagger nicht abbildbar sind, z.b. ein Tutorial zur Nutzung der API mit Request und Response Beispielen.
+Standardmäßig werden vier AsciiDoc-Dateien generiert: _overview.adoc_, _security.adoc_, _paths.adoc_ und _definitions.adoc_. Diese generierten Dateien können nun mit handgeschriebener Dokumentation (z.B. `hand_written_1.adoc` und `hand_written_2.adoc`) beliebig kombiniert werden. Es können aber auch einzelne Dateien für jede Operation und Model Definition generiert werden. Die handgeschriebene Dokumentation kann Informationen beinhalten, die mit Swagger nicht abbildbar sind, z.b. ein Tutorial zur Nutzung der API mit Request und Response Beispielen.
 Hierzu erstellt man eine `index.adoc` Datei, die alle Dateien inkludiert. Der Platzhalter `{generated}` steht für den Ordner in den die Dateien generiert wurden.
 
 .Listing 3
