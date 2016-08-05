@@ -1,7 +1,7 @@
 == Swagger2Markup
 
 Mit https://github.com/Swagger2Markup[Swagger2Markup] gibt es ein Open Source Projekt, dass es ermöglicht eine Swagger Spezifikation in AsciiDoc, Markdown or Atlassian Confluence Wiki Markup zu konvertieren. Die Swagger Spezifikation kann sowohl im YAML als auch im JSON Format vorliegen und sowohl lokal als auch remote über HTTP geladen werden. 
-Die Verwendung von Swagger2Markup ist simpel. Listing 2 zeigt wie eine Swagger Spezifikation in AsciiDoc konvertiert werden kann. AsciiDoc ist als Standard-Ausgabeformat vorkonfiguriert. Es muss nur die Quelle und der Zielordner angegeben werden.
+Die Verwendung von Swagger2Markup ist simpel. Listing 2 zeigt wie eine Swagger Spezifikation in AsciiDoc konvertiert werden kann. AsciiDoc ist als Standard-Ausgabeformat vorkonfiguriert. Es muss nur die Quelle und der Zielordner angegeben werden. In diesem Beispiel wird die Swagger Petstore API Demo über HTTP geladen.
 
 .Listing 2
 [source,java]
