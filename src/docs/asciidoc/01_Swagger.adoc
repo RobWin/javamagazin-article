@@ -1,7 +1,7 @@
 == Swagger
 
 Swagger ist das momentan weitverbreiteste Spezifikationsformat für HTTP-basierte APIs. Um Swagger herum hat sich eine große Tool-Landschaft gebildet. Zum Beispiel die Online-Kollaborationsplattform SwaggerHub, die eine Zusammenarbeit an Swagger Spezifikationen ermöglichen soll. SwaggerHub unterstützt den gesamten Lebenszyklus einer API und bietet hierfür einen Online-Editor für die Erstellung einer Swagger Spezifikationen an, sowie eine Integration mit GitHub, Versionisierung und Codegenerierung.
-Ursprünglich war Swagger in der Version 1.2 ein Code-First Framework mit Hilfe dessen aus Source Code eine Swagger Spezifikation im JSON Format generiert werden konnte. Seit Version 2 wird auf einen Contract-First Ansatz im YAML-Format gesetzt. Die Version 2 wurde von der Open API Initiative als Basis für die OpenAPI Spezifiktation übernommen.
+Ursprünglich war Swagger in der Version 1.2 ein Code-First Framework mit Hilfe dessen aus Source Code eine Swagger Spezifikation im JSON Format generiert werden konnte. Seit Version 2 wird auf einen Contract-First Ansatz im YAML-Format gesetzt. Die Version 2 wurde von der Open API Initiative als Basis für die OpenAPI Spezifikation übernommen.
 
 NOTE: http://www.yaml.org/spec/1.2/spec.html[YAML] ist eine Auszeichnungssprache zur Datenserialisierung und eine Übermenge von JSON. Das Akronym YAML steht für „YAML Ain’t Markup Language“. YAML ist wesentlich leichter von Menschen zu lesen und zu schreiben als beispielsweise JSON oder XML.
 
