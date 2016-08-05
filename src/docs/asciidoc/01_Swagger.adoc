@@ -69,9 +69,9 @@ definitions:
 Die erstellte Spezifikation wird in dem Editor live als eine interaktive HTML-Dokumentation dargestellt. 
 
 .Swagger HTML Dokumentation
-image::images/html_swagger.png[]
+image::images/html_swagger.PNG[]
 
-Diese interaktive HTML-Dokumentation hat einige Mankos. Zum einen liegt der Fokus der Dokumentation eindeutig auf den API Endpunkten, z.B. `GET /pets/{petId}` und nicht auf einer kurzen Beschreibung der Funtionalität, die von diesem Endpunkt angeboten wird, wie z.B. "Find Pet by ID". Ein Entwickler, dem die API unbekannt ist, würde sicher nicht nach einem konkreten API Endpunkt suchen, sondern nach der benötigten Funtionalität.
+Diese interaktive HTML-Dokumentation hat einige Schwächen. Zum einen liegt der Fokus der Dokumentation eindeutig auf den API Endpunkten, z.B. `GET /pets/{petId}` und nicht auf einer kurzen Beschreibung der Funtionalität, die von diesem Endpunkt angeboten wird, wie z.B. "Find Pet by ID". Ein Entwickler, dem die API unbekannt ist, würde sicher nicht nach einem konkreten API Endpunkt suchen, sondern nach der benötigten Funtionalität.
 Des Weiteren kann die HTML-Dokumentation nicht offline angeschaut oder als PDF exportiert werden. Ein PDF-Format ist aber häufig notwendig, wenn die API-Dokumentation in einer Ausschreibung für ein Software-Projekt mit ausgehändigt werden muss.
 Ein weiteres Manko ist, dass die Dokumentation nicht um weitere Details erweitert werden kann, wie z.B. Nutzungsbeispiele in verschiedenen Programmiersprachen oder komplexere HTTP-Request und HTTP-Response Beispiele. 
 
