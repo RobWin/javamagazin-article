@@ -10,8 +10,14 @@ A preface about http://asciidoc.org[AsciiDoc].
 
 == First Section
 
-* item 1
-* item 2
+* list item 1
+* list item 2
+
+_italic phrase_
+
+*bold phrase*
+
+`monospace phrase`
 
 [source,ruby]
 puts "Hello, World!"
