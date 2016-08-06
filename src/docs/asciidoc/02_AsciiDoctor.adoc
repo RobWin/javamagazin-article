@@ -23,3 +23,4 @@ image::example.jpg[]
 
 Da AsciiDoc nur Plain-Text ist, eignet es sich, im Gegensatz zu Word-Dateien, mit Git versionisiert zu werden und ermöglicht somit das Arbeiten mit mehreren Leuten an einer Dokumentation. Ein großer Vorteil von AsciiDoc gegenüber Markdown ist, dass man mit Hilfe der Include-Direktive große Dokumente in kleine Dateien aufteilen kann. 
 Mit AsciidocFX gibt es einen tollen JavaFX-basierten Editor, um AsciiDoc Dokumente mit Live-Preview zu schreiben.
+Bekannte Open Source Projekte wie das Spring Framework oder Spring Boot nutzen AsciiDoc für die Erstellung der Dokumentation.
