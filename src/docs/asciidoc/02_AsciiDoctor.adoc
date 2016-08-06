@@ -15,6 +15,10 @@ A preface about http://asciidoc.org[AsciiDoc].
 
 [source,ruby]
 puts "Hello, World!"
+
+\image::example.jpg[]
+
+\include::second_section.adoc[]
 ----
 
 Da AsciiDoc nur Plain-Text ist, eignet es sich, im Gegensatz zu Word-Dateien, mit Git versionisiert zu werden und ermöglicht somit das Arbeiten mit mehreren Leuten an einer Dokumentation. Ein großer Vorteil von AsciiDoc gegenüber Markdown ist, dass man mit Hilfe der Include-Direktive große Dokumente in kleine Dateien aufteilen kann. 
