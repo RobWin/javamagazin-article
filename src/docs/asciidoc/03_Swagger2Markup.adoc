@@ -28,8 +28,16 @@ Hierzu erstellt man eine `index.adoc` Datei, die alle Dateien inkludiert. Der Pl
 \include::{generated}/definitions.adoc[]
 ----
 
-Mit Hilfe des Open Source Projekts https://github.com/asciidoctor/asciidoctorj[Asciidoctorj] kann die `index.adoc` Datei in HTML, PDF oder andere Formate konvertiert werden. 
-Für Swagger2Markup und Asciidoctorj gibt es auch Gradle oder Maven Plugins, um die Konvertierung in einer Build-Pipeline zu automatisieren. Auf GitHub gibt es zwei Template-Projekte, die den Start mit Gradle oder Maven vereinfachen sollen.
+Mit Hilfe des Open Source Projekts https://github.com/asciidoctor/asciidoctorj[Asciidoctorj] kann die `index.adoc` Datei in HTML, PDF oder andere Formate konvertiert werden. Siehe Listing 4.
+
+[source,java]
+.Listing 4
+----
+String asciiDocAsHtml = Asciidoctor.Factory.create().convertFile(       Paths.get("build/asciidoc/index.adoc").toFile(), OptionsBuilder.options().backend("html5").headerFooter(true).safe(SafeMode.UNSAFE).attributes(AttributesBuilder.attributes().tableOfContents(true).tableOfContents(Placement.LEFT).sectionNumbers(true)));
+
+----
+
+Für Swagger2Markup und Asciidoctorj gibt es aber auch Gradle oder Maven Plugins, um die Konvertierung in einer Build-Pipeline zu automatisieren. Auf GitHub gibt es zwei Template-Projekte, die den Start mit Gradle oder Maven vereinfachen sollen.
 
 Die generierte HTML oder PDF-Dokumentation sieht dann wie folgt aus:
 
@@ -38,10 +46,10 @@ image::images/asciidoc_html.PNG[]
 
 Der Fokus der generierten Inhaltsangabe (ToC) liegt auf der Funktionalität, die von der API angeboten wird, und nicht auf den konkreten API Endpunkten.
 
-Swagger2Markup hat viele Konfigurationsparameter und kann über verschiedene Wege konfiguriert werden, z.B. System Properties, Properties-Datei, Fluent-API oder eine Map. Listing 4 zeigt beispielsweise die Verwendung der Fluent-API, um das Ausgabeformat und die Ausgabesprache zu ändern. Derzeit werden als Sprachen Englisch, Deutsch, Russisch und Türkisch unterstützt.
+Swagger2Markup hat viele Konfigurationsparameter und kann über verschiedene Wege konfiguriert werden, u.a. System Properties, Properties-Datei, Fluent-API oder eine Map. Listing 4 zeigt beispielsweise die Verwendung der Fluent-API, um das Ausgabeformat und die Ausgabesprache zu ändern. Derzeit werden als Sprachen Englisch, Deutsch, Französisch, Russisch und Türkisch unterstützt.
 
 [source,java]
-.Listing 4
+.Listing 5
 ----
 Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder()
         .withMarkupLanguage(MarkupLanguage.MARKDOWN) 
@@ -56,10 +64,10 @@ Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(localSwaggerFil
 
 Swagger2Markup stellt auch ein Service Provider Interface (SPI) und Extension Points bereit, mit der eigene Extensions entwickelt werden können und somit der Funktionsumfang von Swagger2Markup erweitert werden kann.
 
-Mit Hilfe von Gradle (oder auch Maven) lässt sich eine lokale Swagger Spezifikation, die in dem Ordner `src/docs/swagger` liegt automatisiert konvertieren. Hierfür müssen das Swagger2Markup und das Asciidoctorj Gradle Plugin geladen und die Tasks `convertSwagger2markup` und `asciidoctor` konfiguriert werden. Siehe Listing 5. Mit dem Kommando `gradlew asciidoctor` kann nun eine HTML und PDF Dokumentation generiert werden.
+Mit Hilfe von Gradle (oder auch Maven) lässt sich eine lokale Swagger Spezifikation, die in dem Ordner `src/docs/swagger` liegt automatisiert konvertieren. Hierfür müssen das Swagger2Markup und das Asciidoctorj Gradle Plugin geladen und die Tasks `convertSwagger2markup` und `asciidoctor` konfiguriert werden. Siehe Listing 6. Standardmäßig sucht das Asciidoctorj Plugin in dem Ordner `src/docs/asciidoc` nach der `index.adoc` Datei. Mit dem Kommando `gradlew asciidoctor` kann nun eine HTML und PDF Dokumentation generiert werden. Die HTML und PDF Dokumentation wird in die Ordner `build/asciidoc/html5` and `build/asciidoc/pdf` generiert.
 
 [source,groovy]
-.Listing 5
+.Listing 6
 ----
 buildscript {
     dependencies {
