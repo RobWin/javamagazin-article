@@ -16,7 +16,7 @@ A preface about http://asciidoc.org[AsciiDoc].
 [source,ruby]
 puts "Hello, World!"
 
-\image::example.jpg[]
+image::example.jpg[]
 
 \include::second_section.adoc[]
 ----
