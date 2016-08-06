@@ -1,3 +1,20 @@
-== AsciiDoc
+== AsciiDoc und Asciidoctorj
 
-http://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc] ist eine Auszeichnungssprache vergleichbar mit Markdown, allerdings deutlich umfangreicher. AsciiDoc Dateien können in mehrere Formate wie z.B. HTML, PDF, EPUB oder DocBook konvertiert werden. AsciiDoc, aber auch Markdown, eignen sich hervorragend dafür handgeschriebe technische Dokumentation zu erstellen.
+http://asciidoctor.org/docs/asciidoc-writers-guide/[AsciiDoc] ist eine Auszeichnungssprache vergleichbar mit Markdown, allerdings von der Funktionalität deutlich umfangreicher. AsciiDoc Dateien können kõnnen mit Hilfe des Projektes Asciidoctorj in mehrere Formate wie z.B. HTML, PDF, EPUB oder DocBook konvertiert werden. AsciiDoc, aber auch Markdown, eignen sich hervorragend dafür handgeschriebe technische Dokumentation zu erstellen. Ein einfaches AsciiDoc Dokument sieht wie in Listing 1 aus. 
+
+----
+= Introduction to AsciiDoc
+Doc Writer <doc@example.com>
+
+A preface about http://asciidoc.org[AsciiDoc].
+
+== First Section
+
+* item 1
+* item 2
+
+[source,ruby]
+puts "Hello, World!"
+----
+
+Ein großer Vorteil von AsciiDoc gegenüber Markdown ist, dass man mit Hilfe der Include-Direktive große Dokumente in kleine Dateien aufteilen kann. Da AsciiDoc nur Plain-Text ist, eignet es sich, im Gegensatz zu Word-Dateien, mit Git versionisiert zu werden und ermöglicht somit das Arbeiten mit mehreren Leuten an einer Dokumentation.
