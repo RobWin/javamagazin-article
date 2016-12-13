@@ -656,11 +656,11 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 
 <span class="comment">// = &quot;HELLO WORLD&quot;</span>
 <span class="predefined-type">String</span> result = either.map(value -&gt; value.toUpperCase())
-    .get();</code></pre>
+    .get();<span class="error">`</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Da es in Java8 kein lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy, der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
+<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy, der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 6</div>
