@@ -1,8 +1,6 @@
 == Algebraische Datentypen
 
-Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind.
-Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt.
-Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. Soweit genug von der Theorie.
+Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. Soweit genug von der Theorie.
 Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
 
 Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann ich andere Datentypen wie Try oder Either konvertiert werden.
@@ -51,10 +49,10 @@ Either<Integer, String> either = Either.right("Hello world");
 
 // = "HELLO WORLD"
 String result = either.map(value -> value.toUpperCase())
-    .get();
+    .get();`
 ----
 
-Da es in Java8 kein lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy, der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.
+Da es in Java8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.
 
 [source,java]
 .Listing 6
