@@ -511,7 +511,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_tuples">3. Tuples</a></li>
 <li><a href="#_funktionen">4. Funktionen</a></li>
 <li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a></li>
-<li><a href="#_circuitbreaker">6. CircuitBreaker</a></li>
+<li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a></li>
 </ul>
 </div>
 </div>
@@ -660,7 +660,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 </div>
 </div>
 <div class="paragraph">
-<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy, der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
+<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 6</div>
@@ -675,10 +675,81 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 </div>
 </div>
 <div class="sect1">
-<h2 id="_circuitbreaker">6. CircuitBreaker</h2>
+<h2 id="_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>[1] <a href="http://www.javaslang.io/" class="bare">http://www.javaslang.io/</a></p>
+<p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
+Javaslang-CircuitBreaker stellt Funktionen höherer Ordnung (Higher-order functions) bereit, mit denen funktionale Schnittstellen, Lambda Ausdrücke und Methoden-Referenzen um einen CircuitBreaker erweitert werden können. Man kann diese Funktionen höherer Ordnung mit dem Decorator Pattern vergleichen, nur dass keine Klassen erstellt werden müssen. Neben dem CircuitBreaker werden auch Funktionen höherer Ordnung (Decorator) angeboten, um fehlgeschlagene Funktionen automatisch zu wiederholen (Retry) oder die Rate von Funktionsaufrufen zu limitieren (RateLimiter). Man kann mehrere dieser Decorator kombinieren.<br>
+Listing 7 zeigt wie man einen Lambda Aufruf, der ein Backend aufruft, mit einem CircuitBreaker schützen und fehlgeschlagenen Aufrufe, die in einer IOException resultieren, automatisch wiederholen kann. Sowohl der CircuitBreaker als auch Retry haben viele Konfigurationsmöglichkeiten. Mit Hilfe von Try kann man einen Fallback ausführen, wenn der Aufruf trotz Wiederholungen fehlgeschlagen ist.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 7</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = CircuitBreaker Instanz mit default Konfiguration</span>
+CircuitBreakerConfig circuitBreakerConfig = CircuitBreakerConfig.custom()
+    .recordFailure(throwable -&gt; throwable <span class="keyword">instanceof</span> <span class="exception">IOException</span>)
+    .build();
+CircuitBreaker circuitBreaker = CircuitBreaker.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">testName</span><span class="delimiter">&quot;</span></span>, circuitBreakerConfig);
+
+<span class="comment">// = Maximal 3 Wiederholungen und einem fixen Intervall zwischen den Wiederholungen</span>
+RetryConfig config = RetryConfig.custom()
+    .maxAttempts(<span class="integer">3</span>)
+    .waitDuration(<span class="predefined-type">Duration</span>.ofMillis(<span class="integer">100</span>))
+    .retryOnException(throwable -&gt; throwable <span class="keyword">instanceof</span> <span class="exception">IOException</span>)
+    .build();
+Retry retryContext = Retry.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>, config);
+
+<span class="comment">// Dekoriere den Aufruf zum HelloWorldService</span>
+Try.CheckedSupplier&lt;<span class="predefined-type">String</span>&gt; decoratedSupplier = Decorators
+    .ofCheckedSupplier(() -&gt; helloWorldService.sayHelloWorld(<span class="string"><span class="delimiter">&quot;</span><span class="content">Robert</span><span class="delimiter">&quot;</span></span>))
+    .withCircuitBreaker(circuitBreaker)
+    .withRetry(retryContext)
+    .decorate();
+
+Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
+    .recover(throwable -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello Recovery</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Der Javaslang-CircuitBreaker ist eine Zustandsmaschine mit den Zuständen: <code>CLOSED</code>, <code>OPEN</code> und <code>HALF_OPEN</code>. Der initiale Zustand ist CLOSED. Der CircuitBreaker speichert den Status (erfolgreich oder fehlgeschlagen) von Aufrufen in einem Ring Bit Buffer ohne rollendes Zeitfenster. Erfolgreiche Aufrufe werden als 1 Bit und fehlgeschlagene Aufrufe als 0 Bit gespeichert. Der Ring Bit Buffer hat eine konfigurierbare fixe Größe und speichert die Bits in einem long-Array. Das bedeutet, dass man in einem Array mit 16 long (64-bit) Werten den Status der letzten 1024 Aufrufen speichern kann. Diese Speicherform spart eine Menge Arbeitsspeicher. Der Vorteil an einem Ring Bit Buffer ohne rollendes Zeitfenster ist, dass man nicht vorab wissen muss mit welcher Frequenz das Backend aufgerufen wird, da keine Status gelöscht wird, wenn ein Zeitfenster abgelaufen ist. Wenn die Anzahl der fehlgeschlagenen Aufrufe einen konfigurierbaren Schwellwert überschreitet, dann wechselt der CircuitBreaker in den Zustand OPEN und weißt weitere Aufrufe mit einer <code>CircuitBreakerOpenException</code> für einen konfigurierbaren Zeitintervall ab. Nach Ablauf des Zeitintervalls wechselt der CircuitBreaker in den Zustand HALF_OPEN und lässt eine konfigurierbare Anzahl an Aufrufen wieder durch. Wenn die meisten Aufrufe erfolgreich sind und der Schwellwert unterschritten wird, dann wechselt der CircuitBreaker wieder in den Zustand CLOSED, ansonsten wechselt er erneut in den Zustand OPEN und der Kreislauf beginnt aufs neue.<br>
+Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, ansonsten wird der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 8.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 8</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">RateLimiterConfig config = RateLimiterConfig.custom()
+    .limitRefreshPeriod(<span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>))
+    .limitForPeriod(<span class="integer">1</span>)
+    .build();
+RateLimiter rateLimiter = RateLimiter.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">backendName</span><span class="delimiter">&quot;</span></span>, config);
+
+<span class="comment">// Dekoriere den Aufruf zum HelloWorldService</span>
+Try.CheckedSupplier&lt;<span class="predefined-type">String</span>&gt; supplier = Decorators
+    .ofCheckedSupplier(() -&gt; helloWorldService.sayHelloWorld(<span class="string"><span class="delimiter">&quot;</span><span class="content">Robert</span><span class="delimiter">&quot;</span></span>))
+    .withRateLimiter(rateLimiter)
+    .decorate();
+Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sowohl <code>CircuitBreaker</code>, <code>Retry</code> als auch <code>RateLimiter</code> emittieren Events mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder einfach nur Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren kann und in einem Circular Buffer speichern kann, der nur die letzten 10 Events speichert.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 9</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults(<span class="string"><span class="delimiter">&quot;</span><span class="content">testName</span><span class="delimiter">&quot;</span></span>);
+CircularEventConsumer&lt;CircuitBreakerOnErrorEvent&gt; circularEventConsumer = <span class="keyword">new</span> CircularEventConsumer&lt;&gt;(<span class="integer">10</span>);
+circuitBreaker.getEventStream()
+    .filter(event -&gt; event.getEventType() == <span class="predefined-type">Type</span>.ERROR)
+    .cast(CircuitBreakerOnErrorEvent.class)
+    .subscribe(circularEventConsumer);
+
+<span class="predefined-type">List</span>&lt;CircuitBreakerOnErrorEvent&gt; bufferedEvents = circularEventConsumer.getBufferedEvents();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>[1] <a href="http://www.javaslang.io/" class="bare">http://www.javaslang.io/</a><br>
+[1] <a href="https://github.com/RobWin/javaslang-circuitbreaker" class="bare">https://github.com/RobWin/javaslang-circuitbreaker</a></p>
 </div>
 </div>
 </div>
