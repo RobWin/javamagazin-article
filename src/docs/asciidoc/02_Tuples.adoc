@@ -11,11 +11,10 @@ Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
 // = (Javaslang, 2)
 Tuple2<String, Integer> javaslang2 = java8.map(
                 s -> s + "slang",
-                i -> i / 4
-        );
+                i -> i / 4);
 
  // = "Javaslang"
-String first = javaslang2._1; //<2>
+String first = javaslang2._1;
 // = 2
-int second = javaslang2._2; //<3>
+int second = javaslang2._2;
 ----
