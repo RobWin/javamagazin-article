@@ -31,13 +31,27 @@ asciidoctor {
     sources {
         include 'index.adoc'
     }
-    backends = ['pdf','html5']
+    backends = ['html5']
 }
 
 watch {
     asciidoc {
         files fileTree('src/docs/asciidoc')
         tasks 'asciidoctor'
+    }
+}
+
+githubPages {
+    repoUri = 'https://github.com/RobWin/javamagazin-article.git'
+
+    credentials {
+        username = project.githubUser
+        password = project.githubPassword
+    }
+
+    pages {
+        from file(asciidoctor.outputDir.path + '/html5')
+        // into project.version
     }
 }
 

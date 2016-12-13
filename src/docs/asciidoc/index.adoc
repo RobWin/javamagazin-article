@@ -1,4 +1,4 @@
-= Dokumentation von RESTful APIs mittels Swagger, AsciiDoc(tor) und Swagger2Markup
+= Funktionale Programmierung mit Javaslang
 :toc: left
 :toclevels: 4
 :source-highlighter: coderay
