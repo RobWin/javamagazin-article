@@ -1,3 +1,0 @@
-== Algebraische Datentypen
-
-Javaslang bietet mit Option, Try, und Either interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das Some und None. Für Try wären das Success und Failure. Für Either wären das Left or Right. Soweit genug von der Theorie. Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
