@@ -540,7 +540,20 @@ table.CodeRay td.code>pre{padding:0}
 <div class="title">Figure 1. Javaslang Datenstrukturen</div>
 </div>
 <div class="paragraph">
-<p>Eine persistente Datenstruktur kann verändert werden, liefert aber eine veränderte Kopie von sich selbst zurück und behält ihren vorherigen Zustand. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu Speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten an einem Beispiel einer verketteten Liste erläutern. Listing 1 zeigt wie mit Javaslang eine Liste erstellt und modifiziert werden kann. Zunächst wird eine Liste mit drei Werten erstellt und anschließend der erste Werte der Liste modifiziert. Siehe Abbildung 1. Der zweite Aufruf erzeugt eine Kopie der Liste, die sich die gemeinsamen Knoten mit der ursprünglichen Liste teilt. Siehe Abbildung 2.</p>
+<p>Eine persistente Datenstruktur kann verändert werden, liefert aber eine veränderte Kopie von sich selbst zurück und behält ihren vorherigen Zustand. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu Speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten an einem Beispiel einer verketteten Liste erläutern. Listing 1 zeigt wie mit Javaslang eine Liste erstellt und modifiziert werden kann.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 1</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = List(1, 2, 3)</span>
+<span class="predefined-type">List</span>&lt;<span class="predefined-type">Integer</span>&gt; list1 = <span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>);
+
+<span class="comment">// = List(0, 2, 3)</span>
+<span class="predefined-type">List</span>&lt;<span class="predefined-type">Integer</span>&gt; list2 = list1.tail().prepend(<span class="integer">0</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Zunächst wird eine Liste mit drei Werten erstellt und anschließend der erste Werte der Liste modifiziert. Siehe Abbildung 1. Der zweite Aufruf erzeugt eine Kopie der Liste, die sich die gemeinsamen Knoten mit der ursprünglichen Liste teilt. Siehe Abbildung 2.</p>
 </div>
 <div class="imageblock">
 <div class="content">
