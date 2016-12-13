@@ -8,15 +8,15 @@
 
 include::00_Intro.adoc[]
 
-include::01_Swagger.adoc[]
+include::01_Javaslang.adoc[]
 
-include::02_AsciiDoctor.adoc[]
+include::02_Tuples.adoc[]
 
-include::03_Swagger2Markup.adoc[]
+include::03_Funktionen.adoc[]
 
-include::04_SpringfoxUndSpringBoot.adoc[]
+include::04_AlgebraDatentypen.adoc[]
 
-include::05_SpringRestDocs.adoc[]
+include::05_CircuitBreaker.adoc[]
 
 include::06_Links.adoc[]
 

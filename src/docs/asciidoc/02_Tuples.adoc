@@ -1,0 +1,21 @@
+== Tuples
+
+Tuples haben in der Standardbibliothek von Java schon immer gefehlt. Es gibt viele Bibliotheken, die Tuples mit 2 oder 3 Elementen bereitstellen. Javaslang bietet persistente Tuple mit bis zu 8 Elementen an. Listing 2 zeigt wie man Tuples erstellen, modifizieren und auf die Elemente zugreifen kann. Tuples sind praktisch, wenn eine Funktion mehr als einen Rückgabewert hat und es sich nicht um ein entweder-oder Ergebnis handelt. Bei einem entweder-oder Ergebnis würde sich der algebraische Datentypen Either als Rückagebewert eignen. Hierzu aber mehr im Verlauf des Artikels.
+
+[source,java]
+.Listing 2
+----
+// = (Java, 8)
+Tuple2<String, Integer> java8 = Tuple.of("Java", 8);
+
+// = (Javaslang, 2)
+Tuple2<String, Integer> javaslang2 = java8.map(
+                s -> s + "slang",
+                i -> i / 4
+        );
+
+ // = "Javaslang"
+String first = javaslang2._1; //<2>
+// = 2
+int second = javaslang2._2; //<3>
+----
