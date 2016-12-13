@@ -1,3 +1,68 @@
 == Algebraische Datentypen
 
-Javaslang bietet mit Option, Try, und Either interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das Some und None. Für Try wären das Success und Failure. Für Either wären das Left or Right. Soweit genug von der Theorie. Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
+Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind.
+Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt.
+Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. Soweit genug von der Theorie.
+Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
+
+Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann ich andere Datentypen wie Try oder Either konvertiert werden.
+
+[source,java]
+.Listing 3
+----
+// = "Hello world"
+String helloWorld = Option.of("Hello")
+                .map(value -> value + " world")
+                .getOrElse(() -> „Recover");
+----
+
+Interessanter ist der Datentyp `Try`, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehler führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp `Try` als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.
+Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 4.
+Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.
+
+[source,java]
+.Listing 4
+----
+// Service Interface mit Checked exceptions
+public interface HelloWorldService {
+    String sayHelloWorld(String name) throws BusinessException, OtherBusinessException;
+}
+
+// Service mit Try als Rückgabewert
+public class HelloWorldService {
+    Try<String> sayHelloWorld(String name){
+        return Try.of(() -> backendDao.sayHelloWorld(input));
+    }
+}
+
+// BusinesService aufrufen
+String result = helloWorldService.sayHelloWorld("Robert")
+    .map(value -> value + " and all readers")
+    .recover(throwable -> "Handle exception and recover")
+    .get();
+----
+
+Der DatenTyp `Either` eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. `Either` kann auch als alternative for `Option` und `Try` verwendet werden. Per Konvention wäre dann `Left` vergleichbar mit `None` oder `Failure` und `Right` vergleichbar mit `Some` oder `Success`. Aufgrund der Konvention operiert der Operator `map` nur wenn `Either` eine Instanz von `Right` und macht nichts, wenn `Either` eine Instanz von `Left` ist. Siehe Listing 5.
+
+[source,java]
+.Listing 5
+----
+Either<Integer, String> either = Either.right("Hello world");
+
+// = "HELLO WORLD"
+String result = either.map(value -> value.toUpperCase())
+    .get();
+----
+
+Da es in Java8 kein lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy, der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.
+
+[source,java]
+.Listing 6
+----
+Lazy<Double> lazy = Lazy.of(Math::random);
+lazy.isEvaluated(); // = false
+lazy.get();         // = 0.123 (random generated)
+lazy.isEvaluated(); // = true
+lazy.get();         // = 0.123 (cached)
+----
+
