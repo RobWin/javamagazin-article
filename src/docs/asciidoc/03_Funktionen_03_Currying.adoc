@@ -1,0 +1,12 @@
+== Currying
+
+TODO: Text und Codebeispiele überarbeiten
+
+[source,java]
+.Listing x
+----
+Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+Function1<Integer, Integer> add2 = sum.curried().apply(2); 
+
+then(add2.apply(4)).isEqualTo(6);
+----

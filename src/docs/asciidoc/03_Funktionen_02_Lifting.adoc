@@ -1,0 +1,17 @@
+== Lifting
+
+TODO: Text und Codebeispiele überarbeiten
+
+[source,java]
+.Listing x
+----
+Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
+
+Function2<Integer, Integer, Option<Integer>> safeDivide = Function2.lift(divide);
+
+// = None
+Option<Integer> i1 = safeDivide.apply(1, 0); 
+
+// = Some(2)
+Option<Integer> i2 = safeDivide.apply(4, 2); 
+----
