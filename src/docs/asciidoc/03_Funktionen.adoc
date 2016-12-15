@@ -1,2 +1,49 @@
 == Funktionen
+In der funktionalen Programmierung dreht sich alles um Werte und deren Kombination, sowie Transformation über Funktionen.
+Java 8 stellt hierfür das Interface `Function<T,R>`, welches nur einen Parameter entgegen nimmt, und das Interface `BiFunction<T,U,R>`, das zwei Parameter entgegen nimmt, bereit.
+Im Gegensatz dazu bietet Javaslang Funktionen für bis zu acht Parametern.
+Diese stehen unter den Namen `Function0`, `Function1`, `Function2` usw. zur Verfügung.
+Äquivalent dazu gibt es auch noch Funktionen, die eine _"checked exception"_ werfen können. `CheckedFunction1`, `CheckedFunction2`, usw.
 
+Mit nachfolgendem Lambda Ausdruck kann man eine Funktion erzeugen, die zwei Integer summiert:
+[source,java]
+.Listing x
+----
+// sum.apply(1, 2) = 3
+Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
+----
+
+Die Alternative ohne Lambda, dafür mit anonymer Klasse, würde so aussehen:
+[source,java]
+.Listing x
+----
+Function2<Integer, Integer, Integer> sum = new Function2<Integer, Integer, Integer>() {
+    @Override
+    public Integer apply(Integer a, Integer b) {
+        return a + b;
+    }
+};
+----
+
+Zusätzlich hat man noch die Möglichkeit mit einer _"static factory method"_ und Methodenreferenz zu arbeiten:
+[source,java]
+.Listing x
+----
+Function3<String, String, String, String> function3 =
+        Function3.of(this::methodWhichAccepts3Parameters);
+----
+
+Javaslang bietet zu dem noch weitere Funktionen, die wir nachfolgend genauer erklären:
+
+* Composition
+* Lifting
+* Currying
+* Memoization
+
+include::03_Funktionen_01_Composition.adoc[]
+
+include::03_Funktionen_02_Lifting.adoc[]
+
+include::03_Funktionen_03_Currying.adoc[]
+
+include::03_Funktionen_04_Memoization.adoc[]

@@ -1,0 +1,15 @@
+== Memoization
+
+TODO: Text und Codebeispiele überarbeiten
+
+[source,java]
+.Listing x
+----
+Function0<Double> hashCache =
+        Function0.of(Math::random).memoized();
+
+double randomValue1 = hashCache.apply();
+double randomValue2 = hashCache.apply();
+
+then(randomValue1).isEqualTo(randomValue2);
+----
