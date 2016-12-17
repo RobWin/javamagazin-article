@@ -7,7 +7,7 @@ Diese stehen unter den Namen `Function0`, `Function1`, `Function2` usw. zur Verf
 
 Mit nachfolgendem Lambda Ausdruck kann man eine Funktion erzeugen, die zwei Integer summiert:
 [source,java]
-.Listing x
+.Listing 3.0.1
 ----
 // sum.apply(1, 2) = 3
 Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
@@ -15,7 +15,7 @@ Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
 
 Die Alternative ohne Lambda, dafür mit anonymer Klasse, würde so aussehen:
 [source,java]
-.Listing x
+.Listing 3.0.2
 ----
 Function2<Integer, Integer, Integer> sum = new Function2<Integer, Integer, Integer>() {
     @Override
@@ -27,7 +27,7 @@ Function2<Integer, Integer, Integer> sum = new Function2<Integer, Integer, Integ
 
 Zusätzlich hat man noch die Möglichkeit mit einer _"static factory method"_ und Methodenreferenz zu arbeiten:
 [source,java]
-.Listing x
+.Listing 3.0.3
 ----
 Function3<String, String, String, String> function3 =
         Function3.of(this::methodWhichAccepts3Parameters);
