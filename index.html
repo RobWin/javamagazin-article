@@ -517,7 +517,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_memoization">4.4. Memoization</a></li>
 </ul>
 </li>
-<li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a></li>
+<li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a>
+<ul class="sectlevel2">
+<li><a href="#_option">5.1. Option</a></li>
+<li><a href="#_try">5.2. Try</a></li>
+<li><a href="#_either">5.3. Either</a></li>
+<li><a href="#_lazy">5.4. Lazy</a></li>
+</ul>
+</li>
 <li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a></li>
 </ul>
 </div>
@@ -742,6 +749,8 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>. Soweit genug von der Theorie.<br>
 Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
+<div class="sect2">
+<h3 id="_option">5.1. Option</h3>
 <div class="paragraph">
 <p>Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden.</p>
 </div>
@@ -754,6 +763,9 @@ Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
                 .getOrElse(() -&gt; <span class="error">„</span>Recover<span class="string"><span class="delimiter">&quot;</span><span class="content">);</span></span></code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_try">5.2. Try</h3>
 <div class="paragraph">
 <p>Interessanter ist der Datentyp <code>Try</code>, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
 Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 10.<br>
@@ -781,6 +793,9 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
     .get();</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_either">5.3. Either</h3>
 <div class="paragraph">
 <p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
 </div>
@@ -794,6 +809,9 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
     .get();</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_lazy">5.4. Lazy</h3>
 <div class="paragraph">
 <p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
 </div>
@@ -805,6 +823,7 @@ lazy.isEvaluated(); <span class="comment">// = false</span>
 lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
 lazy.isEvaluated(); <span class="comment">// = true</span>
 lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre>
+</div>
 </div>
 </div>
 </div>
