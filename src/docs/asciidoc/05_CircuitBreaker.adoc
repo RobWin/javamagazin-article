@@ -53,7 +53,7 @@ Try.CheckedSupplier<String> supplier = Decorators
 Try<String> result = Try.of(supplier);
 ----
 
-Sowohl `CircuitBreaker`, `Retry` als auch `RateLimiter` emittieren Events mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder einfach nur Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren kann und in einem Circular Buffer speichern kann, der nur die letzten 10 Events speichert.
+Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.
 
 [source,java]
 .Listing 9
@@ -68,3 +68,13 @@ circuitBreaker.getEventStream()
 List<CircuitBreakerOnErrorEvent> bufferedEvents = circularEventConsumer.getBufferedEvents();
 ----
 
+Der CircuitBreaker bietet außerdem eine Schnittstelle an mit der Metriken, wie z.B. die Anzahl fehlgeschlagener Aufrufe oder die aktuelle Fehlerrate, überwacht werden können.
+
+[source,java]
+.Listing 10
+----
+CircuitBreaker.Metrics metrics = circuitBreaker.getMetrics();
+float failureRate = metrics.getFailureRate();
+int bufferedCalls = metrics.getNumberOfBufferedCalls();
+int failedCalls = metrics.getNumberOfFailedCalls();
+----
