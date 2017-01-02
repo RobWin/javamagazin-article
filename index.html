@@ -527,9 +527,10 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a>
 <ul class="sectlevel2">
-<li><a href="#_ratelimiter">6.1. RateLimiter</a></li>
-<li><a href="#_event_stream">6.2. Event stream</a></li>
-<li><a href="#_metriken">6.3. Metriken</a></li>
+<li><a href="#_circuitbreaker">6.1. CircuitBreaker</a></li>
+<li><a href="#_ratelimiter">6.2. RateLimiter</a></li>
+<li><a href="#_event_stream">6.3. Event stream</a></li>
+<li><a href="#_metriken">6.4. Metriken</a></li>
 </ul>
 </li>
 </ul>
@@ -831,8 +832,12 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 <div class="sectionbody">
 <div class="paragraph">
 <p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
-Javaslang-CircuitBreaker stellt Funktionen höherer Ordnung (Higher-order functions) bereit, mit denen funktionale Schnittstellen, Lambda Ausdrücke und Methoden-Referenzen um einen CircuitBreaker erweitert werden können. Man kann diese Funktionen höherer Ordnung mit dem Decorator Pattern vergleichen, nur dass keine Klassen erstellt werden müssen. Neben dem CircuitBreaker werden auch Funktionen höherer Ordnung (Decorator) angeboten, um fehlgeschlagene Funktionen automatisch zu wiederholen (Retry) oder die Rate von Funktionsaufrufen zu limitieren (RateLimiter). Man kann mehrere dieser Decorator kombinieren.<br>
-Listing 13 zeigt wie man einen Lambda Aufruf, der ein Backend aufruft, mit einem CircuitBreaker schützen und fehlgeschlagenen Aufrufe, die in einer IOException resultieren, automatisch wiederholen kann. Sowohl der CircuitBreaker als auch Retry haben viele Konfigurationsmöglichkeiten. Mit Hilfe von Try kann man einen Fallback ausführen, wenn der Aufruf trotz Wiederholungen fehlgeschlagen ist.</p>
+Javaslang-CircuitBreaker stellt Funktionen höherer Ordnung (Higher-order functions) bereit, mit denen funktionale Schnittstellen, Lambda Ausdrücke und Methoden-Referenzen um einen CircuitBreaker erweitert werden können. Man kann diese Funktionen höherer Ordnung mit dem Decorator Pattern vergleichen, nur dass keine Klassen erstellt werden müssen. Neben dem CircuitBreaker werden auch Funktionen höherer Ordnung (Decorator) angeboten, um fehlgeschlagene Funktionen automatisch zu wiederholen (Retry) oder die Rate von Funktionsaufrufen zu limitieren (RateLimiter). Man kann mehrere dieser Decorator kombinieren.</p>
+</div>
+<div class="sect2">
+<h3 id="_circuitbreaker">6.1. CircuitBreaker</h3>
+<div class="paragraph">
+<p>Listing 13 zeigt wie man einen Lambda Aufruf, der ein Backend aufruft, mit einem CircuitBreaker schützen und fehlgeschlagenen Aufrufe, die in einer IOException resultieren, automatisch wiederholen kann. Sowohl der CircuitBreaker als auch Retry haben viele Konfigurationsmöglichkeiten. Mit Hilfe von Try kann man einen Fallback ausführen, wenn der Aufruf trotz Wiederholungen fehlgeschlagen ist.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 13</div>
@@ -865,8 +870,9 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 <div class="paragraph">
 <p>Der Javaslang-CircuitBreaker ist eine Zustandsmaschine mit den Zuständen: <code>CLOSED</code>, <code>OPEN</code> und <code>HALF_OPEN</code>. Der initiale Zustand ist CLOSED. Der CircuitBreaker speichert den Status (erfolgreich oder fehlgeschlagen) von Aufrufen in einem Ring Bit Buffer ohne rollendes Zeitfenster. Erfolgreiche Aufrufe werden als 1 Bit und fehlgeschlagene Aufrufe als 0 Bit gespeichert. Der Ring Bit Buffer hat eine konfigurierbare fixe Größe und speichert die Bits in einem long-Array. Das bedeutet, dass man in einem Array mit 16 long (64-bit) Werten den Status der letzten 1024 Aufrufen speichern kann. Diese Speicherform spart eine Menge Arbeitsspeicher. Der Vorteil an einem Ring Bit Buffer ohne rollendes Zeitfenster ist, dass man nicht vorab wissen muss mit welcher Frequenz das Backend aufgerufen wird, da keine Status gelöscht wird, wenn ein Zeitfenster abgelaufen ist. Wenn die Anzahl der fehlgeschlagenen Aufrufe einen konfigurierbaren Schwellwert überschreitet, dann wechselt der CircuitBreaker in den Zustand OPEN und weißt weitere Aufrufe mit einer <code>CircuitBreakerOpenException</code> für einen konfigurierbaren Zeitintervall ab. Nach Ablauf des Zeitintervalls wechselt der CircuitBreaker in den Zustand HALF_OPEN und lässt eine konfigurierbare Anzahl an Aufrufen wieder durch. Wenn die meisten Aufrufe erfolgreich sind und der Schwellwert unterschritten wird, dann wechselt der CircuitBreaker wieder in den Zustand CLOSED, ansonsten wechselt er erneut in den Zustand OPEN und der Kreislauf beginnt aufs neue.</p>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_ratelimiter">6.1. RateLimiter</h3>
+<h3 id="_ratelimiter">6.2. RateLimiter</h3>
 <div class="paragraph">
 <p>Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, ansonsten wird der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 14.</p>
 </div>
@@ -889,7 +895,7 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 </div>
 </div>
 <div class="sect2">
-<h3 id="_event_stream">6.2. Event stream</h3>
+<h3 id="_event_stream">6.3. Event stream</h3>
 <div class="paragraph">
 <p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 15 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
 </div>
@@ -908,7 +914,7 @@ circuitBreaker.getEventStream()
 </div>
 </div>
 <div class="sect2">
-<h3 id="_metriken">6.3. Metriken</h3>
+<h3 id="_metriken">6.4. Metriken</h3>
 <div class="paragraph">
 <p>Der CircuitBreaker bietet außerdem eine Schnittstelle an mit der Metriken, wie z.B. die Anzahl fehlgeschlagener Aufrufe oder die aktuelle Fehlerrate, überwacht werden können.</p>
 </div>
