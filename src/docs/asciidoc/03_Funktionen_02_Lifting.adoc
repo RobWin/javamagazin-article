@@ -11,10 +11,10 @@ Die nachfolgende Methode `divide` ist eine partielle Funktion, die nur einen Div
 Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
 ----
 
-Mittles `lift` kann man aus `devide` nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 3.2.1)
+Mittles `lift` kann man aus `divide` nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 6)
 
 [source,java]
-.Listing 3.2.1
+.Listing 6
 ----
 Function2<Integer, Integer, Option<Integer>> safeDivide = Function2.lift(divide);
 

@@ -1,10 +1,10 @@
 == Memoization
 
 Bei der Memoization wird die Methode nur beim ersten Aufruf ausgeführt und bei weiteren Aufrufen wird nur der gecachte Wert zurückgeliefert.
-Das Beispiel in Listing 3.4.1 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.
+Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.
 
 [source,java]
-.Listing 3.4.1
+.Listing 8
 ----
 Function0<Double> hashCache =
         Function0.of(Math::random).memoized();

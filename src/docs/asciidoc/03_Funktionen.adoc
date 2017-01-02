@@ -2,7 +2,7 @@
 In der funktionalen Programmierung dreht sich alles um Funktionen, Komposition von Funktionen und Transformationen von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür die Schnittstellen Supplier, die keinen Parameter entgegen nimmt, Function, welche einen Parameter entgegen nimmt, und BiFunction, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz dazu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine "Checked Exception" werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.
 
 [source,java]
-.Listing 3.0.1
+.Listing 3
 ----
 // sum.apply(1, 2) = 3
 Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
@@ -10,7 +10,7 @@ Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
 
 Javaslang bietet zu dem noch weitere Funktionen, die wir nachfolgend genauer erklären:
 
-* Composition
+* Komposition
 * Lifting
 * Currying
 * Memoization

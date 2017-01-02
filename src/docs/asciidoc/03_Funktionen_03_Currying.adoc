@@ -1,9 +1,9 @@
 == Currying
 
-Das Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts. 
+Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.
 
 [source,java]
-.Listing x
+.Listing 7
 ----
 Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
 // Parameter a wird mit 2 festgeschrieben

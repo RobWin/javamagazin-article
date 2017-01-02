@@ -3,10 +3,10 @@
 Durch Komposition ist es möglich Funktionen miteinander zu verketten.
 Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.
 D.h. die Funktionen f: X -> Y und g: Y -> Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X -> Z.
-In Javaslang stehen dafür die Methoden `andThen` (Listing 3.1.1) oder `compose` (Listing 3.1.2) zur Verfügung:
+In Javaslang stehen dafür die Methoden `andThen` (Listing 4 oder `compose` (Listing 5) zur Verfügung:
 
 [source,java]
-.Listing 3.1.1
+.Listing 4
 ----
 Function1<Integer, Integer> plusOne = a -> a + 1;
 Function1<Integer, Integer> multiplyByTwo = a -> a * 2;
@@ -17,12 +17,12 @@ then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
 ----
 
 [source,java]
-.Listing 3.1.2
+.Listing 5
 ----
 Function1<Integer, Integer> plusOne = a -> a + 1;
 Function1<Integer, Integer> multiplyByTwo = a -> a * 2;
 
-Function1<Integer, Integer> add1AndMultiplyBy2 = plusOne.compose(multiplyByTwo);
+Function1<Integer, Integer> add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);;
 
 then(add1AndMultiplyBy2.apply(2)).isEqualTo(6);
 ----
