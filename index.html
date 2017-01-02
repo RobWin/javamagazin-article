@@ -510,8 +510,12 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_javaslang">2. Javaslang</a></li>
 <li><a href="#_tuples">3. Tuples</a></li>
 <li><a href="#_funktionen">4. Funktionen</a></li>
-<li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a></li>
-<li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a></li>
+<li><a href="#_komposition">5. Komposition</a></li>
+<li><a href="#_lifting">6. Lifting</a></li>
+<li><a href="#_currying">7. Currying</a></li>
+<li><a href="#_memoization">8. Memoization</a></li>
+<li><a href="#_algebraische_datentypen">9. Algebraische Datentypen</a></li>
+<li><a href="#_circuitbreaker_retry_und_ratelimiter">10. CircuitBreaker, Retry und RateLimiter</a></li>
 </ul>
 </div>
 </div>
@@ -520,7 +524,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_einleitung">1. Einleitung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere funktionale Interfaces für Java8 bereit.</p>
+<p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere, funktionale Interfaces für Java8 bereit.</p>
 </div>
 <div class="paragraph">
 <p>von Robert Winkler</p>
@@ -531,7 +535,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_javaslang">2. Javaslang</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist von dem Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
+<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere, funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist von dem Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -549,11 +553,11 @@ table.CodeRay td.code>pre{padding:0}
 <span class="predefined-type">List</span>&lt;<span class="predefined-type">Integer</span>&gt; list1 = <span class="predefined-type">List</span>.of(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>);
 
 <span class="comment">// = List(0, 2, 3)</span>
-<span class="predefined-type">List</span>&lt;<span class="predefined-type">Integer</span>&gt; list2 = list1.tail().prepend(<span class="integer">0</span>);</code></pre>
+<span class="predefined-type">List</span>&lt;<span class="predefined-type">Integer</span>&gt; list2 = list1.replace(<span class="integer">1</span>,<span class="integer">0</span>);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Zunächst wird eine Liste mit drei Werten erstellt und anschließend der erste Werte der Liste modifiziert. Siehe Abbildung 1. Der zweite Aufruf erzeugt eine Kopie der Liste, die sich die gemeinsamen Knoten mit der ursprünglichen Liste teilt. Siehe Abbildung 2.</p>
+<p>Zunächst wird eine Liste mit drei Werten erstellt und anschließend der erste Wert der Liste modifiziert. Siehe Abbildung 1. Der zweite Aufruf erzeugt eine Kopie der Liste, die sich die gemeinsamen Knoten mit der ursprünglichen Liste teilt. Siehe Abbildung 2.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -597,18 +601,185 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <div class="sect1">
 <h2 id="_funktionen">4. Funktionen</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>In der funktionalen Programmierung dreht sich alles um Werte und deren Kombination, sowie Transformation über Funktionen.<br>
+Java 8 stellt hierfür das Interface <code>Function&lt;T,R&gt;</code>, welches nur einen Parameter entgegen nimmt, und das Interface <code>BiFunction&lt;T,U,R&gt;</code>, das zwei Parameter entgegen nimmt, bereit.<br>
+Im Gegensatz dazu bietet Javaslang Funktionen für bis zu acht Parametern.<br>
+Diese stehen unter den Namen <code>Function0</code>, <code>Function1</code>, <code>Function2</code> usw. zur Verfügung.<br>
+Äquivalent dazu gibt es auch noch Funktionen, die eine <em>"checked exception"</em> werfen können. <code>CheckedFunction1</code>, <code>CheckedFunction2</code>, usw.</p>
+</div>
+<div class="paragraph">
+<p>Mit nachfolgendem Lambda Ausdruck kann man eine Funktion erzeugen, die zwei Integer summiert:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.0.1</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sum.apply(1, 2) = 3</span>
+Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Die Alternative ohne Lambda, dafür mit anonymer Klasse, würde so aussehen:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.0.2</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
+    <span class="annotation">@Override</span>
+    <span class="directive">public</span> <span class="predefined-type">Integer</span> apply(<span class="predefined-type">Integer</span> a, <span class="predefined-type">Integer</span> b) {
+        <span class="keyword">return</span> a + b;
+    }
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Zusätzlich hat man noch die Möglichkeit mit einer <em>"static factory method"</em> und Methodenreferenz zu arbeiten:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.0.3</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; function3 =
+        Function3.of(<span class="local-variable">this</span>::methodWhichAccepts3Parameters);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Javaslang bietet zu dem noch weitere Funktionen, die wir nachfolgend genauer erklären:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Composition</p>
+</li>
+<li>
+<p>Lifting</p>
+</li>
+<li>
+<p>Currying</p>
+</li>
+<li>
+<p>Memoization</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_algebraische_datentypen">5. Algebraische Datentypen</h2>
+<h2 id="_komposition">5. Komposition</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Durch Komposition ist es möglich Funktionen miteinander zu verketten.<br>
+Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.<br>
+D.h. die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.<br>
+In Javaslang stehen dafür die Methoden <code>andThen</code> (Listing 3.1.1) oder <code>compose</code> (Listing 3.1.2) zur Verfügung:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.1.1</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
+
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = plusOne.andThen(multiplyByTwo);
+
+then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.1.2</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
+
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = plusOne.compose(multiplyByTwo);
+
+then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lifting">6. Lifting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ <code>Option</code> zurück gibt.<br>
+Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.<br>
+Eine partielle Funktion von X nach Y, ist eine Funktion f: X' &#8594; Y, wo X' eine Teilmenge von X ist.<br>
+D.h. die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.<br>
+Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.<br>
+Die nachfolgende Methode <code>divide</code> ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; divide = (a, b) -&gt; a / b;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Mittles <code>lift</code> kann man aus <code>devide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 3.2.1)</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.2.1</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; safeDivide = Function2.lift(divide);
+
+<span class="comment">// = None</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; i1 = safeDivide.apply(<span class="integer">1</span>, <span class="integer">0</span>);
+
+<span class="comment">// = Some(2)</span>
+<span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt; i2 = safeDivide.apply(<span class="integer">4</span>, <span class="integer">2</span>);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In dem Beispiel wird für den ersten Fall die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Im zweiten Fall wird das Ergebnis in einem <code>Some</code> geliefert.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_currying">7. Currying</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Das Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing x</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
+<span class="comment">// Parameter a wird mit 2 festgeschrieben</span>
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add2 = sum.curried().apply(<span class="integer">2</span>);
+
+then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_memoization">8. Memoization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bei der Memoization wird die Methode nur beim ersten Aufruf ausgeführt und bei weiteren Aufrufen wird nur der gecachte Wert zurückgeliefert.<br>
+Das Beispiel in Listing 3.4.1 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3.4.1</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Function0&lt;<span class="predefined-type">Double</span>&gt; hashCache =
+        Function0.of(<span class="predefined-type">Math</span>::random).memoized();
+
+<span class="type">double</span> randomValue1 = hashCache.apply();
+<span class="type">double</span> randomValue2 = hashCache.apply();
+
+then(randomValue1).isEqualTo(randomValue2);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_algebraische_datentypen">9. Algebraische Datentypen</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>. Soweit genug von der Theorie.<br>
 Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
 <div class="paragraph">
-<p>Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann ich andere Datentypen wie Try oder Either konvertiert werden.</p>
+<p>Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 3</div>
@@ -620,7 +791,7 @@ Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
 </div>
 <div class="paragraph">
-<p>Interessanter ist der Datentyp <code>Try</code>, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehler führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
+<p>Interessanter ist der Datentyp <code>Try</code>, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
 Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 4.<br>
 Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
 </div>
@@ -656,7 +827,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 
 <span class="comment">// = &quot;HELLO WORLD&quot;</span>
 <span class="predefined-type">String</span> result = either.map(value -&gt; value.toUpperCase())
-    .get();<span class="error">`</span></code></pre>
+    .get();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -675,7 +846,7 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 </div>
 </div>
 <div class="sect1">
-<h2 id="_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</h2>
+<h2 id="_circuitbreaker_retry_und_ratelimiter">10. CircuitBreaker, Retry und RateLimiter</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
