@@ -1,12 +1,21 @@
 == Lifting
 
-TODO: Text und Codebeispiele überarbeiten
-
+Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ `Option` zurück gibt.
+Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.
+Eine partielle Funktion von X nach Y, ist eine Funktion f: X' -> Y, wo X' eine Teilmenge von X ist.
+D.h. die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.
+Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.
+Die nachfolgende Methode `divide` ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert:
 [source,java]
-.Listing x
 ----
 Function2<Integer, Integer, Integer> divide = (a, b) -> a / b;
+----
 
+Mittles `lift` kann man aus `devide` nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 3.2.1)
+
+[source,java]
+.Listing 3.2.1
+----
 Function2<Integer, Integer, Option<Integer>> safeDivide = Function2.lift(divide);
 
 // = None
@@ -15,3 +24,5 @@ Option<Integer> i1 = safeDivide.apply(1, 0);
 // = Some(2)
 Option<Integer> i2 = safeDivide.apply(4, 2); 
 ----
+
+In dem Beispiel wird für den ersten Fall die `ArithmeticException` gefangen und `None` zurück gegeben. Im zweiten Fall wird das Ergebnis in einem `Some` geliefert.
