@@ -602,44 +602,13 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <h2 id="_funktionen">4. Funktionen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In der funktionalen Programmierung dreht sich alles um Werte und deren Kombination, sowie Transformation über Funktionen.<br>
-Java 8 stellt hierfür das Interface <code>Function&lt;T,R&gt;</code>, welches nur einen Parameter entgegen nimmt, und das Interface <code>BiFunction&lt;T,U,R&gt;</code>, das zwei Parameter entgegen nimmt, bereit.<br>
-Im Gegensatz dazu bietet Javaslang Funktionen für bis zu acht Parametern.<br>
-Diese stehen unter den Namen <code>Function0</code>, <code>Function1</code>, <code>Function2</code> usw. zur Verfügung.<br>
-Äquivalent dazu gibt es auch noch Funktionen, die eine <em>"checked exception"</em> werfen können. <code>CheckedFunction1</code>, <code>CheckedFunction2</code>, usw.</p>
-</div>
-<div class="paragraph">
-<p>Mit nachfolgendem Lambda Ausdruck kann man eine Funktion erzeugen, die zwei Integer summiert:</p>
+<p>In der funktionalen Programmierung dreht sich alles um Funktionen, Komposition von Funktionen und Transformationen von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür die Schnittstellen Supplier, die keinen Parameter entgegen nimmt, Function, welche einen Parameter entgegen nimmt, und BiFunction, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz dazu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine "Checked Exception" werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 3.0.1</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sum.apply(1, 2) = 3</span>
 Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Die Alternative ohne Lambda, dafür mit anonymer Klasse, würde so aussehen:</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 3.0.2</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = <span class="keyword">new</span> Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt;() {
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> <span class="predefined-type">Integer</span> apply(<span class="predefined-type">Integer</span> a, <span class="predefined-type">Integer</span> b) {
-        <span class="keyword">return</span> a + b;
-    }
-};</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Zusätzlich hat man noch die Möglichkeit mit einer <em>"static factory method"</em> und Methodenreferenz zu arbeiten:</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 3.0.3</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Function3&lt;<span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>, <span class="predefined-type">String</span>&gt; function3 =
-        Function3.of(<span class="local-variable">this</span>::methodWhichAccepts3Parameters);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -903,7 +872,7 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 </div>
 </div>
 <div class="paragraph">
-<p>Sowohl <code>CircuitBreaker</code>, <code>Retry</code> als auch <code>RateLimiter</code> emittieren Events mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder einfach nur Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren kann und in einem Circular Buffer speichern kann, der nur die letzten 10 Events speichert.</p>
+<p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 9</div>
@@ -916,6 +885,18 @@ circuitBreaker.getEventStream()
     .subscribe(circularEventConsumer);
 
 <span class="predefined-type">List</span>&lt;CircuitBreakerOnErrorEvent&gt; bufferedEvents = circularEventConsumer.getBufferedEvents();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Der CircuitBreaker bietet außerdem eine Schnittstelle an mit der Metriken, wie z.B. die Anzahl fehlgeschlagener Aufrufe oder die aktuelle Fehlerrate, überwacht werden können.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 10</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">CircuitBreaker.Metrics metrics = circuitBreaker.getMetrics();
+<span class="type">float</span> failureRate = metrics.getFailureRate();
+<span class="type">int</span> bufferedCalls = metrics.getNumberOfBufferedCalls();
+<span class="type">int</span> failedCalls = metrics.getNumberOfFailedCalls();</code></pre>
 </div>
 </div>
 <div class="paragraph">
