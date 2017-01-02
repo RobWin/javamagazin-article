@@ -1,5 +1,5 @@
 == Einleitung
 
-Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere funktionale Interfaces für Java8 bereit.
+Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere, funktionale Interfaces für Java8 bereit.
 
 von Robert Winkler
