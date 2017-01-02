@@ -679,7 +679,7 @@ Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathemat
 Eine partielle Funktion von X nach Y, ist eine Funktion f: X' &#8594; Y, wo X' eine Teilmenge von X ist.<br>
 D.h. die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.<br>
 Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.<br>
-Die Methode <code>divide</code> in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert. Mittles <code>lift</code> kann man aus <code>divide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet.<br>
+Die Methode <code>divide</code> in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine <code>ArithmeticException</code> geschmissen. Mittles <code>lift</code> kann man aus <code>divide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet.<br>
 In Listing 6 wird für den ersten Fall die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Im zweiten Fall wird das Ergebnis zurück geliefert.</p>
 </div>
 <div class="listingblock">
