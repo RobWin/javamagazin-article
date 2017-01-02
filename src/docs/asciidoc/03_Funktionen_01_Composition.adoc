@@ -1,4 +1,4 @@
-== Komposition
+=== Komposition
 
 Durch Komposition ist es möglich Funktionen miteinander zu verketten.
 Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.

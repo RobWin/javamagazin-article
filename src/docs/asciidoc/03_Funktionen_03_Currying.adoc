@@ -1,6 +1,6 @@
-== Currying
+=== Currying
 
-Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.
+Currying erlaubt die partielle Anwendung einer Funktion durch das Umwandeln einer Funktion mit N Argumenten in eine modifizierte Funktion mit N-1 Argumenten. Mathematisch bedeutet dies beispielsweise, dass eine Funktion mit zwei Argumenten f: A1 x A2 -> B in eine modifizierte Funktion mit einem Argument f’: A1 -> (A2 -> B) umgewandelt wird. Das festsetzen eines oder mehrerer Parameter erfolgt in Javaslang von links nach rechts. Siehe Listing 7.
 
 [source,java]
 .Listing 7

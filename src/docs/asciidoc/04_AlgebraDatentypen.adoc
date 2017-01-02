@@ -3,16 +3,20 @@
 Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. Soweit genug von der Theorie.
 Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
 
-Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden.
+=== Option
+
+Javaslang's `Option` kennt man als `Optional` in Java8 und repräsentiert einen optionalen Wert. Warum sollten man aber Javaslang's Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.
 
 [source,java]
 .Listing 9
 ----
 // = "Hello world"
 String helloWorld = Option.of("Hello")
-                .map(value -> value + " world")
-                .getOrElse(() -> „Recover");
+    .map(value -> value + " world")
+    .getOrElse(() -> „Recover");
 ----
+
+=== Try
 
 Interessanter ist der Datentyp `Try`, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp `Try` als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.
 Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 10.
@@ -40,6 +44,8 @@ String result = helloWorldService.sayHelloWorld("Robert")
     .get();
 ----
 
+=== Either
+
 Der DatenTyp `Either` eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. `Either` kann auch als alternative for `Option` und `Try` verwendet werden. Per Konvention wäre dann `Left` vergleichbar mit `None` oder `Failure` und `Right` vergleichbar mit `Some` oder `Success`. Aufgrund der Konvention operiert der Operator `map` nur wenn `Either` eine Instanz von `Right` und macht nichts, wenn `Either` eine Instanz von `Left` ist. Siehe Listing 11.
 
 [source,java]
@@ -51,6 +57,8 @@ Either<Integer, String> either = Either.right("Hello world");
 String result = either.map(value -> value.toUpperCase())
     .get();
 ----
+
+=== Lazy
 
 Da es in Java8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.
 

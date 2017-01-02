@@ -1,6 +1,6 @@
-== Memoization
+=== Memoization
 
-Bei der Memoization wird die Methode nur beim ersten Aufruf ausgeführt und bei weiteren Aufrufen wird nur der gecachte Wert zurückgeliefert.
+Memoization ermöglicht, dass eine Methode nur beim ersten Aufruf ausgeführt wird und bei weiteren Aufrufen der gecachte Wert zurückgeliefert wird.
 Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.
 
 [source,java]
@@ -14,3 +14,4 @@ double randomValue2 = hashCache.apply();
 
 then(randomValue1).isEqualTo(randomValue2);
 ----
+
