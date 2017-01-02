@@ -605,7 +605,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <p>In der funktionalen Programmierung dreht sich alles um Funktionen, Komposition von Funktionen und Transformationen von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür die Schnittstellen Supplier, die keinen Parameter entgegen nimmt, Function, welche einen Parameter entgegen nimmt, und BiFunction, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz dazu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine "Checked Exception" werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3.0.1</div>
+<div class="title">Listing 3</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// sum.apply(1, 2) = 3</span>
 Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;</code></pre>
@@ -639,10 +639,10 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 <p>Durch Komposition ist es möglich Funktionen miteinander zu verketten.<br>
 Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.<br>
 D.h. die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.<br>
-In Javaslang stehen dafür die Methoden <code>andThen</code> (Listing 3.1.1) oder <code>compose</code> (Listing 3.1.2) zur Verfügung:</p>
+In Javaslang stehen dafür die Methoden <code>andThen</code> (Listing 4 oder <code>compose</code> (Listing 5) zur Verfügung:</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3.1.1</div>
+<div class="title">Listing 4</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
@@ -653,7 +653,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3.1.2</div>
+<div class="title">Listing 5</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
@@ -682,10 +682,10 @@ Die nachfolgende Methode <code>divide</code> ist eine partielle Funktion, die nu
 </div>
 </div>
 <div class="paragraph">
-<p>Mittles <code>lift</code> kann man aus <code>devide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 3.2.1)</p>
+<p>Mittles <code>lift</code> kann man aus <code>divide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet. (Listing 6)</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3.2.1</div>
+<div class="title">Listing 6</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Option</span>&lt;<span class="predefined-type">Integer</span>&gt;&gt; safeDivide = Function2.lift(divide);
 
@@ -708,7 +708,7 @@ Die nachfolgende Methode <code>divide</code> ist eine partielle Funktion, die nu
 <p>Das Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing x</div>
+<div class="title">Listing 7</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; sum = (a, b) -&gt; a + b;
 <span class="comment">// Parameter a wird mit 2 festgeschrieben</span>
@@ -724,10 +724,10 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 <div class="sectionbody">
 <div class="paragraph">
 <p>Bei der Memoization wird die Methode nur beim ersten Aufruf ausgeführt und bei weiteren Aufrufen wird nur der gecachte Wert zurückgeliefert.<br>
-Das Beispiel in Listing 3.4.1 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.</p>
+Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3.4.1</div>
+<div class="title">Listing 8</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Function0&lt;<span class="predefined-type">Double</span>&gt; hashCache =
         Function0.of(<span class="predefined-type">Math</span>::random).memoized();
