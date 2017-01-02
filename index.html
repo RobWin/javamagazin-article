@@ -617,7 +617,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 <div class="ulist">
 <ul>
 <li>
-<p>Composition</p>
+<p>Komposition</p>
 </li>
 <li>
 <p>Lifting</p>
@@ -658,7 +658,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
 
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = plusOne.compose(multiplyByTwo);
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);;
 
 then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
