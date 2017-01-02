@@ -527,7 +527,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere, funktionale Interfaces für Java8 bereit.</p>
 </div>
 <div class="paragraph">
-<p>von Robert Winkler</p>
+<p>von Robert Winkler und Tim Riemer</p>
 </div>
 </div>
 </div>
@@ -705,7 +705,7 @@ Die nachfolgende Methode <code>divide</code> ist eine partielle Funktion, die nu
 <h2 id="_currying">7. Currying</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Das Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.</p>
+<p>Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 7</div>
@@ -751,7 +751,7 @@ Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 <p>Option kennt man als Optional in Java8 und repräsentiert einen optionalen Wert. Allerdings verfügt Javaslang’s Option über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 3</div>
+<div class="title">Listing 9</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = &quot;Hello world&quot;</span>
 <span class="predefined-type">String</span> helloWorld = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello</span><span class="delimiter">&quot;</span></span>)
@@ -761,11 +761,11 @@ Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
 <div class="paragraph">
 <p>Interessanter ist der Datentyp <code>Try</code>, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
-Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 4.<br>
+Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 10.<br>
 Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 4</div>
+<div class="title">Listing 10</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Service Interface mit Checked exceptions</span>
 <span class="directive">public</span> <span class="type">interface</span> <span class="class">HelloWorldService</span> {
@@ -787,10 +787,10 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 </div>
 </div>
 <div class="paragraph">
-<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 5.</p>
+<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 5</div>
+<div class="title">Listing 11</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Either&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">String</span>&gt; either = Either.right(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world</span><span class="delimiter">&quot;</span></span>);
 
@@ -803,7 +803,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 <p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 6</div>
+<div class="title">Listing 12</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
 lazy.isEvaluated(); <span class="comment">// = false</span>
@@ -820,10 +820,10 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 <div class="paragraph">
 <p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
 Javaslang-CircuitBreaker stellt Funktionen höherer Ordnung (Higher-order functions) bereit, mit denen funktionale Schnittstellen, Lambda Ausdrücke und Methoden-Referenzen um einen CircuitBreaker erweitert werden können. Man kann diese Funktionen höherer Ordnung mit dem Decorator Pattern vergleichen, nur dass keine Klassen erstellt werden müssen. Neben dem CircuitBreaker werden auch Funktionen höherer Ordnung (Decorator) angeboten, um fehlgeschlagene Funktionen automatisch zu wiederholen (Retry) oder die Rate von Funktionsaufrufen zu limitieren (RateLimiter). Man kann mehrere dieser Decorator kombinieren.<br>
-Listing 7 zeigt wie man einen Lambda Aufruf, der ein Backend aufruft, mit einem CircuitBreaker schützen und fehlgeschlagenen Aufrufe, die in einer IOException resultieren, automatisch wiederholen kann. Sowohl der CircuitBreaker als auch Retry haben viele Konfigurationsmöglichkeiten. Mit Hilfe von Try kann man einen Fallback ausführen, wenn der Aufruf trotz Wiederholungen fehlgeschlagen ist.</p>
+Listing 13 zeigt wie man einen Lambda Aufruf, der ein Backend aufruft, mit einem CircuitBreaker schützen und fehlgeschlagenen Aufrufe, die in einer IOException resultieren, automatisch wiederholen kann. Sowohl der CircuitBreaker als auch Retry haben viele Konfigurationsmöglichkeiten. Mit Hilfe von Try kann man einen Fallback ausführen, wenn der Aufruf trotz Wiederholungen fehlgeschlagen ist.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 7</div>
+<div class="title">Listing 13</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = CircuitBreaker Instanz mit default Konfiguration</span>
 CircuitBreakerConfig circuitBreakerConfig = CircuitBreakerConfig.custom()
@@ -852,10 +852,10 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 </div>
 <div class="paragraph">
 <p>Der Javaslang-CircuitBreaker ist eine Zustandsmaschine mit den Zuständen: <code>CLOSED</code>, <code>OPEN</code> und <code>HALF_OPEN</code>. Der initiale Zustand ist CLOSED. Der CircuitBreaker speichert den Status (erfolgreich oder fehlgeschlagen) von Aufrufen in einem Ring Bit Buffer ohne rollendes Zeitfenster. Erfolgreiche Aufrufe werden als 1 Bit und fehlgeschlagene Aufrufe als 0 Bit gespeichert. Der Ring Bit Buffer hat eine konfigurierbare fixe Größe und speichert die Bits in einem long-Array. Das bedeutet, dass man in einem Array mit 16 long (64-bit) Werten den Status der letzten 1024 Aufrufen speichern kann. Diese Speicherform spart eine Menge Arbeitsspeicher. Der Vorteil an einem Ring Bit Buffer ohne rollendes Zeitfenster ist, dass man nicht vorab wissen muss mit welcher Frequenz das Backend aufgerufen wird, da keine Status gelöscht wird, wenn ein Zeitfenster abgelaufen ist. Wenn die Anzahl der fehlgeschlagenen Aufrufe einen konfigurierbaren Schwellwert überschreitet, dann wechselt der CircuitBreaker in den Zustand OPEN und weißt weitere Aufrufe mit einer <code>CircuitBreakerOpenException</code> für einen konfigurierbaren Zeitintervall ab. Nach Ablauf des Zeitintervalls wechselt der CircuitBreaker in den Zustand HALF_OPEN und lässt eine konfigurierbare Anzahl an Aufrufen wieder durch. Wenn die meisten Aufrufe erfolgreich sind und der Schwellwert unterschritten wird, dann wechselt der CircuitBreaker wieder in den Zustand CLOSED, ansonsten wechselt er erneut in den Zustand OPEN und der Kreislauf beginnt aufs neue.<br>
-Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, ansonsten wird der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 8.</p>
+Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, ansonsten wird der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 14.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 8</div>
+<div class="title">Listing 14</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">RateLimiterConfig config = RateLimiterConfig.custom()
     .limitRefreshPeriod(<span class="predefined-type">Duration</span>.ofSeconds(<span class="integer">1</span>))
@@ -872,10 +872,10 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 </div>
 </div>
 <div class="paragraph">
-<p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 9 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
+<p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 15 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 9</div>
+<div class="title">Listing 15</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults(<span class="string"><span class="delimiter">&quot;</span><span class="content">testName</span><span class="delimiter">&quot;</span></span>);
 CircularEventConsumer&lt;CircuitBreakerOnErrorEvent&gt; circularEventConsumer = <span class="keyword">new</span> CircularEventConsumer&lt;&gt;(<span class="integer">10</span>);
@@ -891,7 +891,7 @@ circuitBreaker.getEventStream()
 <p>Der CircuitBreaker bietet außerdem eine Schnittstelle an mit der Metriken, wie z.B. die Anzahl fehlgeschlagener Aufrufe oder die aktuelle Fehlerrate, überwacht werden können.</p>
 </div>
 <div class="listingblock">
-<div class="title">Listing 10</div>
+<div class="title">Listing 16</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">CircuitBreaker.Metrics metrics = circuitBreaker.getMetrics();
 <span class="type">float</span> failureRate = metrics.getFailureRate();
