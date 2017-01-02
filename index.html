@@ -509,13 +509,16 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_einleitung">1. Einleitung</a></li>
 <li><a href="#_javaslang">2. Javaslang</a></li>
 <li><a href="#_tuples">3. Tuples</a></li>
-<li><a href="#_funktionen">4. Funktionen</a></li>
-<li><a href="#_komposition">5. Komposition</a></li>
-<li><a href="#_lifting">6. Lifting</a></li>
-<li><a href="#_currying">7. Currying</a></li>
-<li><a href="#_memoization">8. Memoization</a></li>
-<li><a href="#_algebraische_datentypen">9. Algebraische Datentypen</a></li>
-<li><a href="#_circuitbreaker_retry_und_ratelimiter">10. CircuitBreaker, Retry und RateLimiter</a></li>
+<li><a href="#_funktionen">4. Funktionen</a>
+<ul class="sectlevel2">
+<li><a href="#_komposition">4.1. Komposition</a></li>
+<li><a href="#_lifting">4.2. Lifting</a></li>
+<li><a href="#_currying">4.3. Currying</a></li>
+<li><a href="#_memoization">4.4. Memoization</a></li>
+</ul>
+</li>
+<li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a></li>
+<li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a></li>
 </ul>
 </div>
 </div>
@@ -630,11 +633,8 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_komposition">5. Komposition</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_komposition">4.1. Komposition</h3>
 <div class="paragraph">
 <p>Durch Komposition ist es möglich Funktionen miteinander zu verketten.<br>
 Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.<br>
@@ -664,10 +664,8 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_lifting">6. Lifting</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_lifting">4.2. Lifting</h3>
 <div class="paragraph">
 <p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ <code>Option</code> zurück gibt.<br>
 Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.<br>
@@ -700,10 +698,8 @@ Die nachfolgende Methode <code>divide</code> ist eine partielle Funktion, die nu
 <p>In dem Beispiel wird für den ersten Fall die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Im zweiten Fall wird das Ergebnis in einem <code>Some</code> geliefert.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_currying">7. Currying</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_currying">4.3. Currying</h3>
 <div class="paragraph">
 <p>Currying erlaubt das partielle Anwenden einer Funktion durch das festsetzen eines oder mehrerer Parameter, dieses erfolgt von links nach rechts.</p>
 </div>
@@ -718,10 +714,8 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_memoization">8. Memoization</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_memoization">4.4. Memoization</h3>
 <div class="paragraph">
 <p>Bei der Memoization wird die Methode nur beim ersten Aufruf ausgeführt und bei weiteren Aufrufen wird nur der gecachte Wert zurückgeliefert.<br>
 Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den selben Wert.</p>
@@ -740,8 +734,9 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_algebraische_datentypen">9. Algebraische Datentypen</h2>
+<h2 id="_algebraische_datentypen">5. Algebraische Datentypen</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>. Soweit genug von der Theorie.<br>
@@ -815,7 +810,7 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 </div>
 </div>
 <div class="sect1">
-<h2 id="_circuitbreaker_retry_und_ratelimiter">10. CircuitBreaker, Retry und RateLimiter</h2>
+<h2 id="_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
