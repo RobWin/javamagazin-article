@@ -1,9 +1,9 @@
 === Komposition
 
-Durch Komposition ist es möglich Funktionen miteinander zu verketten.
-Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.
-D.h. die Funktionen f: X -> Y und g: Y -> Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X -> Z.
-In Javaslang stehen dafür die Methoden `andThen` (Listing 4 oder `compose` (Listing 5) zur Verfügung:
+Durch Komposition ist es möglich, Funktionen miteinander zu verketten.
+Das Prinzip ist aus der Mathematik bekannt: Durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion entsteht eine neue Funktion. Die Funktionen f: X -> Y und g: Y -> Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X -> Z.
+
+In Javaslang stehen dafür die Methoden `andThen` (Listing 4) oder `compose` (Listing 5) zur Verfügung:
 
 [source,java]
 .Listing 4
