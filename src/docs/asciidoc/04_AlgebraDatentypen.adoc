@@ -1,11 +1,11 @@
 == Algebraische Datentypen
 
-Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. Soweit genug von der Theorie.
-Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
+Javaslang bietet mit `Option`, `Try`, und `Either` interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das `Some` und `None`. Für Try wären das `Success` und `Failure`. Für Either wären das `Left` or `Right`. 
+Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. 
 
 === Option
 
-Javaslang's `Option` kennt man als `Optional` in Java8 und repräsentiert einen optionalen Wert. Warum sollten man aber Javaslang's Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.
+Javaslang's `Option` kennt man als `Optional` in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang's Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.
 
 [source,java]
 .Listing 9
@@ -18,8 +18,8 @@ String helloWorld = Option.of("Hello")
 
 === Try
 
-Interessanter ist der Datentyp `Try`, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp `Try` als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.
-Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 10.
+Interessanter ist der Datentyp `Try`. `Try` repräsentiert eine Berechnung, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp `Try` als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.
+Listing 10 zeigt, dass Try einige Operatoren hat, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde.
 Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.
 
 [source,java]
@@ -60,7 +60,7 @@ String result = either.map(value -> value.toUpperCase())
 
 === Lazy
 
-Da es in Java8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.
+Da es in Java8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.
 
 [source,java]
 .Listing 12
