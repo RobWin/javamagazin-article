@@ -1,12 +1,15 @@
 === Lifting
 
+// Vielleicht noch Option erklären...
+
 Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ `Option` zurück gibt.
 Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.
-Eine partielle Funktion von X nach Y, ist eine Funktion f: X' -> Y, wo X' eine Teilmenge von X ist.
-D.h. die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.
+Eine partielle Funktion von X nach Y ist eine Funktion f: X' -> Y, wobei X' eine Teilmenge von X ist, dass heisst die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.
 Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.
-Die Methode `divide` in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine `ArithmeticException` geschmissen. Mittles `lift` kann man aus `divide` nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet ohne eine ArithmeticException zu schmeissen.
+Die Methode `divide` in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine `ArithmeticException` geworfen. Mittels `lift` kann nun aus `divide` eine totale Funktion erzeugt werden, die jede Eingabe verarbeitet ohne eine ArithmeticException zu werfen.
 In Listing 6 wird für den ersten Fall die `ArithmeticException` gefangen und `None` zurück gegeben. Im zweiten Fall wird das Ergebnis zurück geliefert.
+
+// Das Listing verstehe ich so nicht ganz... lift fängt die Exception automatisch und erzeugt ein leeres Option?
 
 [source,java]
 .Listing 6
