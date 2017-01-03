@@ -1,7 +1,7 @@
 === Memoization
 
 Memoization ermöglicht, dass eine Methode nur beim ersten Aufruf ausgeführt wird und bei weiteren Aufrufen der gespeicherte Wert zurückgeliefert wird.
-Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den gespeicherten Wert.
+Das Beispiel in Listing 8 erzeugt bei der ersten Ausführung eine Zufallszahl und liefert danach immer den gespeicherten Wert.
 
 [source,java]
 .Listing 8
