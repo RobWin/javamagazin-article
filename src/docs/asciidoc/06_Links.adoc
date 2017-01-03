@@ -1,2 +1,2 @@
 [1] http://www.javaslang.io/
-[1] https://github.com/RobWin/javaslang-circuitbreaker
+[2] https://github.com/RobWin/javaslang-circuitbreaker
