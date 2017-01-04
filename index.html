@@ -685,10 +685,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <div class="sect2">
 <h3 id="_lifting">4.2. Lifting</h3>
 <div class="paragraph">
-<p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Datentyp <code>Option</code> zurück gibt. Der Datentyp Option wird im Verlauf des Artikels noch erläutert.<br>
-Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.<br>
-Eine partielle Funktion von X nach Y ist eine Funktion f: X' &#8594; Y, wobei X' eine Teilmenge von X ist, dass heisst die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.<br>
-Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.<br>
+<p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Datentyp <code>Option</code> zurück gibt. Der Datentyp Option wird im Verlauf des Artikels noch erläutert. Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite. Eine partielle Funktion von X nach Y ist eine Funktion f: X' &#8594; Y, wobei X' eine Teilmenge von X ist, dass heisst die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss. Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.<br>
 Die Methode <code>divide</code> in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine <code>ArithmeticException</code> geworfen. Mit Hilfe des Operators <code>lift</code> kann nun aus divide eine totale Funktion erzeugt werden, die jede Eingabe verarbeitet ohne eine <code>ArithmeticException</code> zu werfen. Der Operator <code>lift</code> fängt alle Exceptions einer Funktion und liefert dann ein leeres Option zurück. In Listing 6 wird daher bei einem ungültigen Divisor die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Andernfalls wird das Ergebnis zurück geliefert.</p>
 </div>
 <div class="listingblock">
