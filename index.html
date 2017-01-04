@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_einleitung">1. Einleitung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere, funktionale Interfaces für Java8 bereit.</p>
+<p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere funktionale Interfaces für Java8 bereit.</p>
 </div>
 <div class="paragraph">
 <p>von Robert Winkler und Tim Riemer</p>
@@ -552,7 +552,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_javaslang">2. Javaslang</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere, funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist von dem Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
+<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -561,7 +561,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="title">Figure 1. Javaslang Datenstrukturen</div>
 </div>
 <div class="paragraph">
-<p>Eine persistente Datenstruktur kann verändert werden, liefert aber eine veränderte Kopie von sich selbst zurück und behält ihren vorherigen Zustand. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu Speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten an einem Beispiel einer verketteten Liste erläutern. Listing 1 zeigt wie mit Javaslang eine Liste erstellt und modifiziert werden kann.</p>
+<p>Unter dem Begriff „Persistenz“ versteht man in der Informatik häufig, dass Daten auf einem nichtflüchtigen Datenträger gespeichert werden. Dieses Verhalten ist mit dem Begriff „persistente Datenstruktur“ nicht gemeint, sondern, dass eine persistente Datenstruktur, wenn sie verändert wird, immer eine veränderte Kopie von sich selbst zurück liefert und ihren vorherigen Zustand behält. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten am Beispiel einer verketteten Liste erläutern. Listing 1 zeigt, wie mit Javaslang eine Liste erstellt und modifiziert werden kann.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 1</div>
@@ -587,6 +587,9 @@ table.CodeRay td.code>pre{padding:0}
 <img src="images/list2.png" alt="Abbildung 2">
 </div>
 <div class="title">Figure 3. Abbildung 2</div>
+</div>
+<div class="paragraph">
+<p>Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.</p>
 </div>
 </div>
 </div>
@@ -650,10 +653,11 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 <div class="sect2">
 <h3 id="_komposition">4.1. Komposition</h3>
 <div class="paragraph">
-<p>Durch Komposition ist es möglich Funktionen miteinander zu verketten.<br>
-Das Prinzip dürfte aus der Mathematik bekannt sein, wo man durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion, eine neue Funktion erhält.<br>
-D.h. die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.<br>
-In Javaslang stehen dafür die Methoden <code>andThen</code> (Listing 4 oder <code>compose</code> (Listing 5) zur Verfügung:</p>
+<p>Durch Komposition ist es möglich, Funktionen miteinander zu verketten.<br>
+Das Prinzip ist aus der Mathematik bekannt: Durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion entsteht eine neue Funktion. Die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.</p>
+</div>
+<div class="paragraph">
+<p>In Javaslang stehen dafür die Methoden <code>andThen</code> oder <code>compose</code> zur Verfügung. Siehe Listing 4 und 5. Diese Methoden gibt es aber auch schon in Java8.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 4</div>
@@ -683,11 +687,9 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <div class="paragraph">
 <p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ <code>Option</code> zurück gibt.<br>
 Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.<br>
-Eine partielle Funktion von X nach Y, ist eine Funktion f: X' &#8594; Y, wo X' eine Teilmenge von X ist.<br>
-D.h. die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.<br>
+Eine partielle Funktion von X nach Y ist eine Funktion f: X' &#8594; Y, wobei X' eine Teilmenge von X ist, dass heisst die Funktion f erfordert nicht, dass jedes Element aus X auf ein Element in Y abgebildet werden muss.<br>
 Somit arbeitet eine partielle Funktion nur für einige Eingabewerte korrekt und wirft bei einer ungültigen Eingabe einen Fehler.<br>
-Die Methode <code>divide</code> in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine <code>ArithmeticException</code> geschmissen. Mittles <code>lift</code> kann man aus <code>divide</code> nun eine totale Funktion erzeugen, die jede Eingabe verarbeitet ohne eine ArithmeticException zu schmeissen.<br>
-In Listing 6 wird für den ersten Fall die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Im zweiten Fall wird das Ergebnis zurück geliefert.</p>
+Die Methode <code>divide</code> in Listing 6 ist eine partielle Funktion, die nur einen Divisor ungleich 0 akzeptiert, ansonsten wird eine <code>ArithmeticException</code> geworfen. Mit Hilfe des Operators <code>lift</code> kann nun aus divide eine totale Funktion erzeugt werden, die jede Eingabe verarbeitet ohne eine <code>ArithmeticException</code> zu werfen. Der Operator <code>lift</code> fängt alle Exceptions einer Funktion und liefert dann ein leeres Option zurück. In Listing 6 wird daher bei einem ungültigen Divisor die <code>ArithmeticException</code> gefangen und <code>None</code> zurück gegeben. Andernfalls wird das Ergebnis zurück geliefert.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 6</div>
@@ -724,7 +726,7 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 <h3 id="_memoization">4.4. Memoization</h3>
 <div class="paragraph">
 <p>Memoization ermöglicht, dass eine Methode nur beim ersten Aufruf ausgeführt wird und bei weiteren Aufrufen der gespeicherte Wert zurückgeliefert wird.<br>
-Das Beispiel in Listing 8 erzeugte eine Zufallszahl bei der ersten Ausführung und liefert danach immer den gespeicherten Wert.</p>
+Das Beispiel in Listing 8 erzeugt bei der ersten Ausführung eine Zufallszahl und liefert danach immer den gespeicherten Wert.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 8</div>
@@ -745,13 +747,13 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <h2 id="_algebraische_datentypen">5. Algebraische Datentypen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>. Soweit genug von der Theorie.<br>
-Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
+<p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>.<br>
+Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
 <div class="sect2">
 <h3 id="_option">5.1. Option</h3>
 <div class="paragraph">
-<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java8 und repräsentiert einen optionalen Wert. Warum sollten man aber Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
+<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 9</div>
@@ -766,8 +768,8 @@ Im folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 <div class="sect2">
 <h3 id="_try">5.2. Try</h3>
 <div class="paragraph">
-<p>Interessanter ist der Datentyp <code>Try</code>, der eine Berechnung repräsentiert, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) schmeissen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Besser ist es, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler schmeissen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert von einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
-Try hat einige Operatoren, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde. Siehe Listing 10.<br>
+<p>Interessanter ist der Datentyp <code>Try</code>. <code>Try</code> repräsentiert eine Berechnung, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
+Listing 10 zeigt, dass Try einige Operatoren hat, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde.<br>
 Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
 </div>
 <div class="listingblock">
@@ -812,7 +814,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 <div class="sect2">
 <h3 id="_lazy">5.4. Lazy</h3>
 <div class="paragraph">
-<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied, denn ein bereits berechnet Wert wird gecached.</p>
+<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 12</div>
@@ -868,13 +870,13 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 </div>
 </div>
 <div class="paragraph">
-<p>Der Javaslang-CircuitBreaker ist eine Zustandsmaschine mit den Zuständen: <code>CLOSED</code>, <code>OPEN</code> und <code>HALF_OPEN</code>. Der initiale Zustand ist CLOSED. Der CircuitBreaker speichert den Status (erfolgreich oder fehlgeschlagen) von Aufrufen in einem Ring Bit Buffer ohne rollendes Zeitfenster. Erfolgreiche Aufrufe werden als 1 Bit und fehlgeschlagene Aufrufe als 0 Bit gespeichert. Der Ring Bit Buffer hat eine konfigurierbare fixe Größe und speichert die Bits in einem long-Array. Das bedeutet, dass man in einem Array mit 16 long (64-bit) Werten den Status der letzten 1024 Aufrufen speichern kann. Diese Speicherform spart eine Menge Arbeitsspeicher. Der Vorteil an einem Ring Bit Buffer ohne rollendes Zeitfenster ist, dass man nicht vorab wissen muss mit welcher Frequenz das Backend aufgerufen wird, da keine Status gelöscht wird, wenn ein Zeitfenster abgelaufen ist. Wenn die Anzahl der fehlgeschlagenen Aufrufe einen konfigurierbaren Schwellwert überschreitet, dann wechselt der CircuitBreaker in den Zustand OPEN und weißt weitere Aufrufe mit einer <code>CircuitBreakerOpenException</code> für einen konfigurierbaren Zeitintervall ab. Nach Ablauf des Zeitintervalls wechselt der CircuitBreaker in den Zustand HALF_OPEN und lässt eine konfigurierbare Anzahl an Aufrufen wieder durch. Wenn die meisten Aufrufe erfolgreich sind und der Schwellwert unterschritten wird, dann wechselt der CircuitBreaker wieder in den Zustand CLOSED, ansonsten wechselt er erneut in den Zustand OPEN und der Kreislauf beginnt aufs neue.</p>
+<p>Der Javaslang-CircuitBreaker ist eine Zustandsmaschine mit den Zuständen: <code>CLOSED</code>, <code>OPEN</code> und <code>HALF_OPEN</code>. Der initiale Zustand ist CLOSED. Der CircuitBreaker speichert den Status (erfolgreich oder fehlgeschlagen) von Aufrufen in einem Ring Bit Buffer ohne rollendes Zeitfenster. Erfolgreiche Aufrufe werden als 1 Bit und fehlgeschlagene Aufrufe als 0 Bit gespeichert. Der Ring Bit Buffer hat eine konfigurierbare fixe Größe und speichert die Bits in einem long-Array. Das bedeutet, dass man in einem Array mit 16 long (64-bit) Werten den Status der letzten 1024 Aufrufen speichern kann. Diese Speicherform spart eine Menge Arbeitsspeicher. Der Vorteil an einem Ring Bit Buffer ohne rollendes Zeitfenster ist, dass man nicht vorab wissen muss mit welcher Frequenz das Backend aufgerufen wird, da keine Status gelöscht wird, wenn ein Zeitfenster abgelaufen ist. Wenn die Anzahl der fehlgeschlagenen Aufrufe einen konfigurierbaren Schwellwert überschreitet, wechselt der CircuitBreaker in den Zustand OPEN und weist weitere Aufrufe mit einer <code>CircuitBreakerOpenException</code> für einen konfigurierbaren Zeitintervall ab. Nach Ablauf des Zeitintervalls wechselt der CircuitBreaker in den Zustand HALF_OPEN und lässt eine konfigurierbare Anzahl an Aufrufen wieder durch. Wenn die meisten Aufrufe erfolgreich sind und der Schwellwert unterschritten wird, wechselt der CircuitBreaker wieder in den Zustand CLOSED, ansonsten wechselt er erneut in den Zustand OPEN und der Kreislauf beginnt aufs neue.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_ratelimiter">6.2. RateLimiter</h3>
 <div class="paragraph">
-<p>Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, ansonsten wird der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 14.</p>
+<p>Mit dem RateLimiter kann die Frequenz von Aufrufen zu einem Backend limitiert werden. Zum Beispiel kann limitiert werden, dass ein Backend nur einmal pro Sekunde aufgerufen werden darf, bevor der Aufruf mit einer <code>RequestNotPermittedException</code> abgewiesen. Siehe Listing 14.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 14</div>
@@ -897,7 +899,7 @@ Try&lt;<span class="predefined-type">String</span>&gt; result = Try.of(supplier)
 <div class="sect2">
 <h3 id="_event_stream">6.3. Event stream</h3>
 <div class="paragraph">
-<p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsument gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 15 zeigt wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer speichern kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach möglich Events zwischen zu speichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
+<p>Sowohl CircuitBreaker, Retry als auch RateLimiter emittieren einen Event Stream mit Hilfe von RxJava, falls es einen Konsumenten gibt. Diese Events beinhalten Informationen, die für das Monitoring einer Programms interessant sind. Zum Beispiel die Antwortzeit von Aufrufen, die Fehler, die dazu führen, dass der CircuitBreaker getriggert wird oder Zustandswechsel. Listing 15 zeigt, wie man nur die Error-Events von einem CircuitBreaker konsumieren und in einem Circular Buffer ablegen kann, um nur die letzten 10 Events zu speichern. RxJava macht es mit Operatoren wie buffer oder window einfach, Events zwischenzuspeichern und diese in einem bestimmten Intervall stapelweise in eine Metriken-Datenbank wie InfluxDB oder Prometheus zu schreiben.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 15</div>
@@ -929,7 +931,7 @@ circuitBreaker.getEventStream()
 </div>
 <div class="paragraph">
 <p>[1] <a href="http://www.javaslang.io/" class="bare">http://www.javaslang.io/</a><br>
-[1] <a href="https://github.com/RobWin/javaslang-circuitbreaker" class="bare">https://github.com/RobWin/javaslang-circuitbreaker</a></p>
+[2] <a href="https://github.com/RobWin/javaslang-circuitbreaker" class="bare">https://github.com/RobWin/javaslang-circuitbreaker</a></p>
 </div>
 </div>
 </div>
