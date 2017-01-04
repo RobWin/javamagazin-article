@@ -509,20 +509,20 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_einleitung">1. Einleitung</a></li>
 <li><a href="#_javaslang">2. Javaslang</a></li>
 <li><a href="#_tuples">3. Tuples</a></li>
-<li><a href="#_algebraische_datentypen">4. Algebraische Datentypen</a>
+<li><a href="#_funktionen">4. Funktionen</a>
 <ul class="sectlevel2">
-<li><a href="#_option">4.1. Option</a></li>
-<li><a href="#_try">4.2. Try</a></li>
-<li><a href="#_either">4.3. Either</a></li>
-<li><a href="#_lazy">4.4. Lazy</a></li>
+<li><a href="#_komposition">4.1. Komposition</a></li>
+<li><a href="#_lifting">4.2. Lifting</a></li>
+<li><a href="#_currying">4.3. Currying</a></li>
+<li><a href="#_memoization">4.4. Memoization</a></li>
 </ul>
 </li>
-<li><a href="#_funktionen">5. Funktionen</a>
+<li><a href="#_algebraische_datentypen">5. Algebraische Datentypen</a>
 <ul class="sectlevel2">
-<li><a href="#_komposition">5.1. Komposition</a></li>
-<li><a href="#_lifting">5.2. Lifting</a></li>
-<li><a href="#_currying">5.3. Currying</a></li>
-<li><a href="#_memoization">5.4. Memoization</a></li>
+<li><a href="#_option">5.1. Option</a></li>
+<li><a href="#_try">5.2. Try</a></li>
+<li><a href="#_either">5.3. Either</a></li>
+<li><a href="#_lazy">5.4. Lazy</a></li>
 </ul>
 </li>
 <li><a href="#_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</a>
@@ -619,93 +619,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 </div>
 </div>
 <div class="sect1">
-<h2 id="_algebraische_datentypen">4. Algebraische Datentypen</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>.<br>
-Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
-</div>
-<div class="sect2">
-<h3 id="_option">4.1. Option</h3>
-<div class="paragraph">
-<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 9</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = &quot;Hello world&quot;</span>
-<span class="predefined-type">String</span> helloWorld = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello</span><span class="delimiter">&quot;</span></span>)
-    .map(value -&gt; value + <span class="string"><span class="delimiter">&quot;</span><span class="content"> world</span><span class="delimiter">&quot;</span></span>)
-    .getOrElse(() -&gt; <span class="error">„</span>Recover<span class="string"><span class="delimiter">&quot;</span><span class="content">);</span></span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_try">4.2. Try</h3>
-<div class="paragraph">
-<p>Interessanter ist der Datentyp <code>Try</code>. <code>Try</code> repräsentiert eine Berechnung, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
-Listing 10 zeigt, dass Try einige Operatoren hat, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde.<br>
-Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 10</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Service Interface mit Checked exceptions</span>
-<span class="directive">public</span> <span class="type">interface</span> <span class="class">HelloWorldService</span> {
-    <span class="predefined-type">String</span> sayHelloWorld(<span class="predefined-type">String</span> name) <span class="directive">throws</span> BusinessException, OtherBusinessException;
-}
-
-<span class="comment">// Service mit Try als Rückgabewert</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldService</span> {
-    Try&lt;<span class="predefined-type">String</span>&gt; sayHelloWorld(<span class="predefined-type">String</span> name){
-        <span class="keyword">return</span> Try.of(() -&gt; backendDao.sayHelloWorld(input));
-    }
-}
-
-<span class="comment">// BusinesService aufrufen</span>
-<span class="predefined-type">String</span> result = helloWorldService.sayHelloWorld(<span class="string"><span class="delimiter">&quot;</span><span class="content">Robert</span><span class="delimiter">&quot;</span></span>)
-    .map(value -&gt; value + <span class="string"><span class="delimiter">&quot;</span><span class="content"> and all readers</span><span class="delimiter">&quot;</span></span>)
-    .recover(throwable -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Handle exception and recover</span><span class="delimiter">&quot;</span></span>)
-    .get();</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_either">4.3. Either</h3>
-<div class="paragraph">
-<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 11</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Either&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">String</span>&gt; either = Either.right(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world</span><span class="delimiter">&quot;</span></span>);
-
-<span class="comment">// = &quot;HELLO WORLD&quot;</span>
-<span class="predefined-type">String</span> result = either.map(value -&gt; value.toUpperCase())
-    .get();</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_lazy">4.4. Lazy</h3>
-<div class="paragraph">
-<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.</p>
-</div>
-<div class="listingblock">
-<div class="title">Listing 12</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
-lazy.isEvaluated(); <span class="comment">// = false</span>
-lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
-lazy.isEvaluated(); <span class="comment">// = true</span>
-lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_funktionen">5. Funktionen</h2>
+<h2 id="_funktionen">4. Funktionen</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In der funktionalen Programmierung dreht sich alles um Funktionen, Komposition von Funktionen und Transformationen von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür lediglich die Schnittstellen <code>Supplier</code>, die keinen Parameter entgegen nimmt, <code>Function</code>, welche einen Parameter entgegen nimmt, und <code>BiFunction</code>, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz dazu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine "Checked Exception" werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
@@ -737,7 +651,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_komposition">5.1. Komposition</h3>
+<h3 id="_komposition">4.1. Komposition</h3>
 <div class="paragraph">
 <p>Durch Komposition ist es möglich, Funktionen miteinander zu verketten.<br>
 Das Prinzip ist aus der Mathematik bekannt: Durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion entsteht eine neue Funktion. Die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.</p>
@@ -769,7 +683,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 </div>
 </div>
 <div class="sect2">
-<h3 id="_lifting">5.2. Lifting</h3>
+<h3 id="_lifting">4.2. Lifting</h3>
 <div class="paragraph">
 <p>Lifting erlaubt es, eine partielle Funktion in eine totale Funktion umzuwandeln, die den Typ <code>Option</code> zurück gibt.<br>
 Wie bereits bei der Komposition erklären wir das Vorgehen kurz von der mathematischen Seite.<br>
@@ -793,7 +707,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </div>
 </div>
 <div class="sect2">
-<h3 id="_currying">5.3. Currying</h3>
+<h3 id="_currying">4.3. Currying</h3>
 <div class="paragraph">
 <p>Currying erlaubt die partielle Anwendung einer Funktion durch das Umwandeln einer Funktion mit N Argumenten in eine modifizierte Funktion mit N-1 Argumenten. Mathematisch bedeutet dies beispielsweise, dass eine Funktion mit zwei Argumenten f: A1 x A2 &#8594; B in eine modifizierte Funktion mit einem Argument f’: A1 &#8594; (A2 &#8594; B) umgewandelt wird. Das festsetzen eines oder mehrerer Parameter erfolgt in Javaslang von links nach rechts. Siehe Listing 7.</p>
 </div>
@@ -809,7 +723,7 @@ then(add2.apply(<span class="integer">4</span>)).isEqualTo(<span class="integer"
 </div>
 </div>
 <div class="sect2">
-<h3 id="_memoization">5.4. Memoization</h3>
+<h3 id="_memoization">4.4. Memoization</h3>
 <div class="paragraph">
 <p>Memoization ermöglicht, dass eine Methode nur beim ersten Aufruf ausgeführt wird und bei weiteren Aufrufen der gespeicherte Wert zurückgeliefert wird.<br>
 Das Beispiel in Listing 8 erzeugt bei der ersten Ausführung eine Zufallszahl und liefert danach immer den gespeicherten Wert.</p>
@@ -824,6 +738,92 @@ Das Beispiel in Listing 8 erzeugt bei der ersten Ausführung eine Zufallszahl un
 <span class="type">double</span> randomValue2 = hashCache.apply();
 
 then(randomValue1).isEqualTo(randomValue2);</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_algebraische_datentypen">5. Algebraische Datentypen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>.<br>
+Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
+</div>
+<div class="sect2">
+<h3 id="_option">5.1. Option</h3>
+<div class="paragraph">
+<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 9</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = &quot;Hello world&quot;</span>
+<span class="predefined-type">String</span> helloWorld = <span class="predefined-type">Option</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello</span><span class="delimiter">&quot;</span></span>)
+    .map(value -&gt; value + <span class="string"><span class="delimiter">&quot;</span><span class="content"> world</span><span class="delimiter">&quot;</span></span>)
+    .getOrElse(() -&gt; <span class="error">„</span>Recover<span class="string"><span class="delimiter">&quot;</span><span class="content">);</span></span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_try">5.2. Try</h3>
+<div class="paragraph">
+<p>Interessanter ist der Datentyp <code>Try</code>. <code>Try</code> repräsentiert eine Berechnung, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
+Listing 10 zeigt, dass Try einige Operatoren hat, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde.<br>
+Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 10</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Service Interface mit Checked exceptions</span>
+<span class="directive">public</span> <span class="type">interface</span> <span class="class">HelloWorldService</span> {
+    <span class="predefined-type">String</span> sayHelloWorld(<span class="predefined-type">String</span> name) <span class="directive">throws</span> BusinessException, OtherBusinessException;
+}
+
+<span class="comment">// Service mit Try als Rückgabewert</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldService</span> {
+    Try&lt;<span class="predefined-type">String</span>&gt; sayHelloWorld(<span class="predefined-type">String</span> name){
+        <span class="keyword">return</span> Try.of(() -&gt; backendDao.sayHelloWorld(input));
+    }
+}
+
+<span class="comment">// BusinesService aufrufen</span>
+<span class="predefined-type">String</span> result = helloWorldService.sayHelloWorld(<span class="string"><span class="delimiter">&quot;</span><span class="content">Robert</span><span class="delimiter">&quot;</span></span>)
+    .map(value -&gt; value + <span class="string"><span class="delimiter">&quot;</span><span class="content"> and all readers</span><span class="delimiter">&quot;</span></span>)
+    .recover(throwable -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Handle exception and recover</span><span class="delimiter">&quot;</span></span>)
+    .get();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_either">5.3. Either</h3>
+<div class="paragraph">
+<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 11</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Either&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">String</span>&gt; either = Either.right(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello world</span><span class="delimiter">&quot;</span></span>);
+
+<span class="comment">// = &quot;HELLO WORLD&quot;</span>
+<span class="predefined-type">String</span> result = either.map(value -&gt; value.toUpperCase())
+    .get();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lazy">5.4. Lazy</h3>
+<div class="paragraph">
+<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 12</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Lazy&lt;<span class="predefined-type">Double</span>&gt; lazy = Lazy.of(<span class="predefined-type">Math</span>::random);
+lazy.isEvaluated(); <span class="comment">// = false</span>
+lazy.get();         <span class="comment">// = 0.123 (random generated)</span>
+lazy.isEvaluated(); <span class="comment">// = true</span>
+lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre>
 </div>
 </div>
 </div>
@@ -939,7 +939,7 @@ circuitBreaker.getEventStream()
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-01-04 08:56:36 +01:00
+Last updated 2017-01-04 08:57:23 +01:00
 </div>
 </div>
 </body>
