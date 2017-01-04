@@ -5,7 +5,7 @@ Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datenty
 .Javaslang Datenstrukturen
 image::images/javaslang-overview.png[]
 
-Eine persistente Datenstruktur kann verändert werden, liefert aber eine veränderte Kopie von sich selbst zurück und behält ihren vorherigen Zustand. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten am Beispiel einer verketteten Liste erläutern. Listing 1 zeigt, wie mit Javaslang eine Liste erstellt und modifiziert werden kann.
+Unter dem Begriff „Persistenz“ versteht man in der Informatik häufig, dass Daten auf einem nichtflüchtigen Datenträger gespeichert werden. Dieses Verhalten ist mit dem Begriff „persistente Datenstruktur“ nicht gemeint, sondern, dass eine persistente Datenstruktur, wenn sie verändert wird, immer eine veränderte Kopie von sich selbst zurück liefert und ihren vorherigen Zustand behält. Man kann also sagen, dass persistente Datenstrukturen unveränderlich sind, da sie effektiv nach ihrer Erstellung nicht mehr modifiziert werden können. Damit das Verändern von persistenten Datenstrukturen nicht zu speicherintensiv ist, können sie sich im Speicher vorgehaltene Werte teilen. Das lässt sich am besten am Beispiel einer verketteten Liste erläutern. Listing 1 zeigt, wie mit Javaslang eine Liste erstellt und modifiziert werden kann.
 
 [source,java]
 .Listing 1
@@ -24,3 +24,5 @@ image::images/list1.png[Abbildung 1]
 
 .Abbildung 2
 image::images/list2.png[Abbildung 2]
+
+Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.
