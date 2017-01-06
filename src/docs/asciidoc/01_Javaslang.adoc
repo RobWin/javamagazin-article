@@ -1,6 +1,6 @@
 == Javaslang
 
-Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf einen von drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.
+Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java 8 bereit. Alle Datentypen bauen auf einen von drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.
 
 .Javaslang Datenstrukturen
 image::images/javaslang-overview.png[]
@@ -25,4 +25,4 @@ image::images/list1.png[Abbildung 1]
 .Abbildung 2
 image::images/list2.png[Abbildung 2]
 
-Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.
+Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java 8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.

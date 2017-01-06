@@ -5,7 +5,7 @@ Im Folgenden zeigen wir praktische Anwendungsfälle für diese Datentypen. 
 
 === Option
 
-Javaslang's `Option` kennt man als `Optional` in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang's Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.
+Javaslang's `Option` kennt man als `Optional` in Java 8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang's Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.
 
 [source,java]
 .Listing 9
@@ -60,7 +60,7 @@ String result = either.map(value -> value.toUpperCase())
 
 === Lazy
 
-Da es in Java8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.
+Da es in Java 8 kein `lazy` Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp `Lazy` der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.
 
 [source,java]
 .Listing 12
