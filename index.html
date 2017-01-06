@@ -552,7 +552,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_javaslang">2. Javaslang</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
+<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf einen von drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -622,7 +622,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <h2 id="_funktionen">4. Funktionen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In der funktionalen Programmierung dreht sich alles um Funktionen, Komposition von Funktionen und Transformationen von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür lediglich die Schnittstellen <code>Supplier</code>, die keinen Parameter entgegen nimmt, <code>Function</code>, welche einen Parameter entgegen nimmt, und <code>BiFunction</code>, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz dazu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine "Checked Exception" werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
+<p>In der funktionalen Programmierung dreht sich alles um Funktionen, die Komposition von Funktionen und die Transformation von Werten mit Hilfe von Funktionen. Java8 stellt hierfür lediglich die Schnittstellen <code>Supplier</code>, die keinen Parameter entgegen nimmt, <code>Function</code>, welche einen Parameter entgegen nimmt, und <code>BiFunction</code>, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz hierzu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine Checked Exception werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 3</div>
@@ -632,7 +632,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 </div>
 </div>
 <div class="paragraph">
-<p>Javaslang bietet zu dem noch weitere Funktionen, die wir nachfolgend genauer erklären:</p>
+<p>Javaslang’s funktionale Schnittstellen stellen weitere Methoden bereit, die wir nachfolgend genauer erklären:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -653,11 +653,11 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 <div class="sect2">
 <h3 id="_komposition">4.1. Komposition</h3>
 <div class="paragraph">
-<p>Durch Komposition ist es möglich, Funktionen miteinander zu verketten.<br>
+<p>Durch Komposition ist es möglich Funktionen miteinander zu verketten.<br>
 Das Prinzip ist aus der Mathematik bekannt: Durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion entsteht eine neue Funktion. Die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.</p>
 </div>
 <div class="paragraph">
-<p>In Javaslang stehen dafür die Methoden <code>andThen</code> oder <code>compose</code> zur Verfügung. Siehe Listing 4 und 5. Diese Methoden gibt es aber auch schon in Java8.</p>
+<p>In Javaslang stehen dafür die Methoden <code>andThen</code> sowie <code>compose</code> zur Verfügung. Siehe Listing 4 und 5. Diese Methoden haben aber auch mit dem <code>Function</code> Interface in Java8 Einzug gehalten.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 4</div>
@@ -676,7 +676,7 @@ then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span c
 <pre class="CodeRay highlight"><code data-lang="java">Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; plusOne = a -&gt; a + <span class="integer">1</span>;
 Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; multiplyByTwo = a -&gt; a * <span class="integer">2</span>;
 
-Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);;
+Function1&lt;<span class="predefined-type">Integer</span>, <span class="predefined-type">Integer</span>&gt; add1AndMultiplyBy2 = multiplyByTwo.compose(plusOne);
 
 then(add1AndMultiplyBy2.apply(<span class="integer">2</span>)).isEqualTo(<span class="integer">6</span>);</code></pre>
 </div>
@@ -745,7 +745,7 @@ then(randomValue1).isEqualTo(randomValue2);</code></pre>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Javaslang bietet mit <code>Option</code>, <code>Try</code>, und <code>Either</code> interessante algebraische Datentypen, die für den täglichen Gebrauch geeignet sind. Man nennt diese Datentypen auch Summen oder Variantentypen, da es für jeden Typ nur eine fixe Anzahl an Varianten gibt. Für Option wären das <code>Some</code> und <code>None</code>. Für Try wären das <code>Success</code> und <code>Failure</code>. Für Either wären das <code>Left</code> or <code>Right</code>.<br>
-Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
+Im Folgenden zeigen wir praktische Anwendungsfälle für diese Datentypen. </p>
 </div>
 <div class="sect2">
 <h3 id="_option">5.1. Option</h3>
@@ -765,7 +765,7 @@ Im Folgenden zeige ich praktische Anwendungsfälle für diese Datentypen. </p>
 <div class="sect2">
 <h3 id="_try">5.2. Try</h3>
 <div class="paragraph">
-<p>Interessanter ist der Datentyp <code>Try</code>. <code>Try</code> repräsentiert eine Berechnung, die entweder erfolgreich durch geführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
+<p>Interessanter ist der Datentyp <code>Try</code>. <code>Try</code> repräsentiert eine Berechnung, die entweder erfolgreich durchgeführt (Success) oder mit einem Fehler beendet wurde (Failure). Viele Java Applikationen sind voll von Seiteneffekten, da Methoden Laufzeitfehler (Unchecked Exceptions) werfen können und dieses Verhalten nicht an der Signatur der Methode erkennbar ist. Diese Laufzeitfehler durchbrechen den normalen Ablauf eines Programmes und können zu schwerwiegenden Fehlern führen, wenn sie nicht alle irgendwo im Programm abgefangen und behandelt werden. Es ist besser, wenn die Signatur einer Methode klar stellt, dass die Methode einen Fehler werfen kann, aber nicht zwischen Unchecked und Checked Exceptions unterschieden wird. Hierfür kann der Datentyp <code>Try</code> als Rückgabewert einer Methode verwendet werden. Im Gegensatz zu Checked Exceptions wird der Entwickler nicht dazu gezwungen, alle Checked Exceptions zu behandeln oder weiterzuleiten.<br>
 Listing 10 zeigt, dass Try einige Operatoren hat, die nur ausgeführt werden, wenn die Berechnung erfolgreich durchgeführt und andere, die nur ausgeführt werden, wenn die Berechnung mit einem Fehler beendet wurde.<br>
 Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann mit dem recover Operator ein Failure behandelt und ein anderer Wert zurückgeliefert werden.</p>
 </div>
@@ -795,7 +795,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 <div class="sect2">
 <h3 id="_either">5.3. Either</h3>
 <div class="paragraph">
-<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefert. <code>Either</code> kann auch als alternative for <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
+<p>Der DatenTyp <code>Either</code> eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefern. <code>Either</code> kann auch als Alternative für <code>Option</code> und <code>Try</code> verwendet werden. Per Konvention wäre dann <code>Left</code> vergleichbar mit <code>None</code> oder <code>Failure</code> und <code>Right</code> vergleichbar mit <code>Some</code> oder <code>Success</code>. Aufgrund der Konvention operiert der Operator <code>map</code> nur wenn <code>Either</code> eine Instanz von <code>Right</code> ist und macht nichts, wenn <code>Either</code> eine Instanz von <code>Left</code> ist. Siehe Listing 11.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 11</div>
@@ -830,7 +830,7 @@ lazy.get();         <span class="comment">// = 0.123 (cached)</span></code></pre
 <h2 id="_circuitbreaker_retry_und_ratelimiter">6. CircuitBreaker, Retry und RateLimiter</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
+<p>Das Open-Source Project Javaslang-CircuitBreaker[2] ist eine leichtgewichtige Fehlertoleranz-Bibliothek, die von Netflix Hystrix inspiriert wurde, aber speziell für Funktionale Programming ausgelegt wurde. Sie ist leichtgewichtig, weil sie nur Javaslang und RxJava als Abhängigkeit hat, die wiederum keine weiteren Abhängigkeiten haben. Netflix Hystrix hingegen hat eine Abhängigkeit zu Netflix Archaius, welches weitere Abhängigkeiten zu Guava oder Apache Commons Configuration mit sich bringt.<br>
 Javaslang-CircuitBreaker stellt Funktionen höherer Ordnung (Higher-order functions) bereit, mit denen funktionale Schnittstellen, Lambda Ausdrücke und Methoden-Referenzen um einen CircuitBreaker erweitert werden können. Man kann diese Funktionen höherer Ordnung mit dem Decorator Pattern vergleichen, nur dass keine Klassen erstellt werden müssen. Neben dem CircuitBreaker werden auch Funktionen höherer Ordnung (Decorator) angeboten, um fehlgeschlagene Funktionen automatisch zu wiederholen (Retry) oder die Rate von Funktionsaufrufen zu limitieren (RateLimiter). Man kann mehrere dieser Decorator kombinieren.</p>
 </div>
 <div class="sect2">
