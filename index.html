@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_einleitung">1. Einleitung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Mit Java8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere funktionale Interfaces für Java8 bereit.</p>
+<p>Mit Java 8 hat die funktionale Programmierung in Java Einzug gehalten. Allerdings fehlen in der Standardbibliothek von Java 8 noch viele Features, die man von anderen Programmiersprachen wie Scala kennt. Das Open-Source Projekt Javaslang möchte diese Lücke füllen und stellt unter anderem persistente Datenstrukturen, algebraische Datentypen und bessere funktionale Interfaces für Java 8 bereit.</p>
 </div>
 <div class="paragraph">
 <p>von Robert Winkler und Tim Riemer</p>
@@ -552,7 +552,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_javaslang">2. Javaslang</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java8 bereit. Alle Datentypen bauen auf einen von drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
+<p>Javaslang[1] stellt viele neue persistente Datenstrukturen, algebraische Datentypen (Summen- und Produkt-Typen) und bessere funktionale Interfaces für Java 8 bereit. Alle Datentypen bauen auf einen von drei Basis-Datentypen auf: Tuple, Lambda und Value. Jeder Datentyp in Javaslang, der einen Wert repräsentiert, ist vom Basis-Datentyp Value abgeleitet. Bei der Namensgebung der Datentypen orientiert sich Javaslang stark an Scala. Das besondere an den Datenstrukturen von Javaslang ist, dass sie persistent und somit unveränderlich sind.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -589,7 +589,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="title">Figure 3. Abbildung 2</div>
 </div>
 <div class="paragraph">
-<p>Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.</p>
+<p>Das selbe Verfahren funktioniert auch bei komplexeren Datenstrukturen wie Queues, TreeSets oder TreeMaps. Javaslang’s Datenstrukturen haben viele hilfreiche Operatoren, die man aus funktionale Programmiersprachen oder RxJava kennt, wie z.B. map, flatMap, foldLeft, foldRight, scanLeft, scanRight, sortBy, groupBy, distinct, dropRight, dropUntil und viele mehr. Javaslang legt großen Wert darauf, dass es einfach ist Java 8 Datentypen in Javaslang’s Datentypen zu konvertieren und auch wieder zurück.</p>
 </div>
 </div>
 </div>
@@ -603,10 +603,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="title">Listing 2</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// = (Java, 8)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; java8 = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>);
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; Java <span class="integer">8</span> = Tuple.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">Java</span><span class="delimiter">&quot;</span></span>, <span class="integer">8</span>);
 
 <span class="comment">// = (Javaslang, 2)</span>
-Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2 = java8.map(
+Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Integer</span>&gt; javaslang2 = Java <span class="integer">8</span>.map(
                 s -&gt; s + <span class="string"><span class="delimiter">&quot;</span><span class="content">slang</span><span class="delimiter">&quot;</span></span>,
                 i -&gt; i / <span class="integer">4</span>);
 
@@ -622,7 +622,7 @@ Tuple2&lt;<span class="predefined-type">String</span>, <span class="predefined-t
 <h2 id="_funktionen">4. Funktionen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In der funktionalen Programmierung dreht sich alles um Funktionen, die Komposition von Funktionen und die Transformation von Werten mit Hilfe von Funktionen. Java8 stellt hierfür lediglich die Schnittstellen <code>Supplier</code>, die keinen Parameter entgegen nimmt, <code>Function</code>, welche einen Parameter entgegen nimmt, und <code>BiFunction</code>, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz hierzu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine Checked Exception werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
+<p>In der funktionalen Programmierung dreht sich alles um Funktionen, die Komposition von Funktionen und die Transformation von Werten mit Hilfe von Funktionen. Java 8 stellt hierfür lediglich die Schnittstellen <code>Supplier</code>, die keinen Parameter entgegen nimmt, <code>Function</code>, welche einen Parameter entgegen nimmt, und <code>BiFunction</code>, welche zwei Parameter entgegen nimmt, bereit. Im Gegensatz hierzu bietet Javaslang Funktionen mit bis zu acht Parametern an. Diese stehen unter den Namen Function0 bis Function8 zur Verfügung. Äquivalent dazu gibt es auch noch Funktionen, die eine Checked Exception werfen können. Listing 3 zeigt wie man mit einem Lambda Ausdruck eine Javaslang Funktion erzeugen kann, die zwei Integer summiert.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 3</div>
@@ -657,7 +657,7 @@ Function2&lt;<span class="predefined-type">Integer</span>, <span class="predefin
 Das Prinzip ist aus der Mathematik bekannt: Durch Anwendung einer Funktion auf dem Resultat einer anderen Funktion entsteht eine neue Funktion. Die Funktionen f: X &#8594; Y und g: Y &#8594; Z können zu einer Funktion h: g(f(x)) verkettet werden mit h: X &#8594; Z.</p>
 </div>
 <div class="paragraph">
-<p>In Javaslang stehen dafür die Methoden <code>andThen</code> sowie <code>compose</code> zur Verfügung. Siehe Listing 4 und 5. Diese Methoden haben aber auch mit dem <code>Function</code> Interface in Java8 Einzug gehalten.</p>
+<p>In Javaslang stehen dafür die Methoden <code>andThen</code> sowie <code>compose</code> zur Verfügung. Siehe Listing 4 und 5. Diese Methoden haben aber auch mit dem <code>Function</code> Interface in Java 8 Einzug gehalten.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 4</div>
@@ -750,7 +750,7 @@ Im Folgenden zeigen wir praktische Anwendungsfälle für diese Datentypen. </p
 <div class="sect2">
 <h3 id="_option">5.1. Option</h3>
 <div class="paragraph">
-<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
+<p>Javaslang&#8217;s <code>Option</code> kennt man als <code>Optional</code> in Java 8 und repräsentiert einen optionalen Wert. Warum sollte man Javaslang&#8217;s Option anstelle von Optional benutzen? Javaslang’s Option verfügt über mehr Operatoren und kann in andere Datentypen wie Try oder Either konvertiert werden. Eine weiterer Vorteil von Javaslang’s Option ist, dass die Klasse serialisierbar ist. Listing 9 zeigt, dass sich die API nicht stark von Optional unterscheidet.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 9</div>
@@ -811,7 +811,7 @@ Der Operator map wird nur ausgeführt, wenn es ein Success ist, ansonsten kann m
 <div class="sect2">
 <h3 id="_lazy">5.4. Lazy</h3>
 <div class="paragraph">
-<p>Da es in Java8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.</p>
+<p>Da es in Java 8 kein <code>lazy</code> Keyword wie in Scala gibt, gibt es in Javaslang den Datentyp <code>Lazy</code> der einen Wert repräsentiert, der unter Umständen noch nicht berechnet wurde. Lazy könnte man mit einem Supplier vergleichen, hat aber einen wesentlichen Unterschied: Bereits berechnete Werte werden gecached.</p>
 </div>
 <div class="listingblock">
 <div class="title">Listing 12</div>
