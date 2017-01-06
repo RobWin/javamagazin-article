@@ -8,7 +8,7 @@ In der funktionalen Programmierung dreht sich alles um Funktionen, die Kompositi
 Function2<Integer, Integer, Integer> sum = (a, b) -> a + b;
 ----
 
-Javaslang bietet zudem noch weitere Funktionen, die wir nachfolgend genauer erklären:
+Javaslang’s funktionale Schnittstellen stellen weitere Methoden bereit, die wir nachfolgend genauer erklären:
 
 * Komposition
 * Lifting

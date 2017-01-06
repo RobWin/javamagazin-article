@@ -46,7 +46,7 @@ String result = helloWorldService.sayHelloWorld("Robert")
 
 === Either
 
-Der DatenTyp `Either` eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück lieferern. `Either` kann auch als Alternative für `Option` und `Try` verwendet werden. Per Konvention wäre dann `Left` vergleichbar mit `None` oder `Failure` und `Right` vergleichbar mit `Some` oder `Success`. Aufgrund der Konvention operiert der Operator `map` nur wenn `Either` eine Instanz von `Right` ist und macht nichts, wenn `Either` eine Instanz von `Left` ist. Siehe Listing 11.
+Der DatenTyp `Either` eignet sich als Rückgabewert, wenn Funktionen ein entweder-oder Ergebnis zurück liefern. `Either` kann auch als Alternative für `Option` und `Try` verwendet werden. Per Konvention wäre dann `Left` vergleichbar mit `None` oder `Failure` und `Right` vergleichbar mit `Some` oder `Success`. Aufgrund der Konvention operiert der Operator `map` nur wenn `Either` eine Instanz von `Right` ist und macht nichts, wenn `Either` eine Instanz von `Left` ist. Siehe Listing 11.
 
 [source,java]
 .Listing 11
