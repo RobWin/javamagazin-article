@@ -6,10 +6,10 @@ Tuples haben in der Standardbibliothek von Java schon immer gefehlt. Es gibt vie
 .Listing 2
 ----
 // = (Java, 8)
-Tuple2<String, Integer> Java 8 = Tuple.of("Java", 8);
+Tuple2<String, Integer> Java8 = Tuple.of("Java", 8);
 
 // = (Javaslang, 2)
-Tuple2<String, Integer> javaslang2 = Java 8.map(
+Tuple2<String, Integer> javaslang2 = Java8.map(
                 s -> s + "slang",
                 i -> i / 4);
 
